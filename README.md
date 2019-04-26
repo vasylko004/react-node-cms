@@ -1,1 +1,1 @@
-# react-node-cms
+# Rect + Node Simple CMS

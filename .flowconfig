@@ -1,0 +1,12 @@
+[ignore]
+./server/src
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

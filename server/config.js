@@ -1,7 +1,7 @@
 var dotenv = require("dotenv");
 var configs = Object.create(null);
 
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== "development") {
 
 }
 

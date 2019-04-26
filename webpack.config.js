@@ -2,6 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
+var FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
@@ -22,22 +23,20 @@ module.exports = {
         path: path.resolve(__dirname, "./server/dist"),
         filename: "server.js"
     },
+    resolve: {
+      modules: [
+        path.resolve('./src/'),
+        'node_modules',
+      ],
+      extensions: ['.js'],
+    },
     module: {
-        rules: [{
-          test: /\.js$/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                ['env', {
-                  'targets': {
-                    'node': 'current'
-                  }
-                }]
-              ]
-            }
-          }
-        }]
+      rules: [
+        {
+          test: '/.js$/',
+          loader: 'babel-loader',
+        },
+      ],
     }
 }
 
