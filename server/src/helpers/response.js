@@ -10,15 +10,20 @@ export const CONFLICT:number = 409;
 export const SERVER_ERROR:number = 500;
 
 export class Response {
-    response: any = null;
-    status: number = 200;
-    data: any = null;
-    notice: Array<string> = [];
-    warnings: Array<string> = [];
-    errors: Array<string> = [];
+    response:any;
+    status:number;
+    data: any;
+    notice: Array<string>;
+    warnings: Array<string>;
+    errors: Array<string>;
 
     constructor(response: any){
         this.response = response;
+        this.status = 200;
+        this.data = null;
+        this.notice = [];
+        this.warnings = [];
+        this.errors =  [];
     }
 
     addWarning(message:string) {

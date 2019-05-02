@@ -48,7 +48,7 @@ class UserModel extends DefaultModel{
             });
         });
       
-        this.schema.methods.comparePassword = function (candidatePassword: string, next: function) { // add to user model function comparing passwords
+        this.schema.methods.comparePassword = function (candidatePassword: string, next: any) { // add to user model function comparing passwords
             bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
                 if (err) {
                 return next(err);

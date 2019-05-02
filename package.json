@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:start": "npm-run-all --parallel server:watch server:build",
     "server:watch": "nodemon \"./server/dist/server.js\" --watch \"./server/dist\"",
-    "server:build": "webpack --config ./webpack.config.js",
+    "server:build": "babel server/src -d server/dist",
     "server:doc": "apidoc -i server/src -o docs/",
     "flow": "flow"
   },
@@ -55,10 +55,6 @@
     "flow": "^0.2.3",
     "flow-babel-webpack-plugin": "^1.1.1",
     "flow-bin": "^0.97.0",
-    "mocha": "^6.1.4",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.1.14",
-    "webpack-node-externals": "^1.7.2"
+    "mocha": "^6.1.4"
   }
 }

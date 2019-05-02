@@ -14,7 +14,7 @@ class UserController {
         this.model = new UserModel();
     }
 
-    _add(req: any, res: any, callback: function){
+    _add(req: any, res: any, callback:any){
         let Req = new Request(req);
         let Res = new Response(res);
         let data = Req.fetch(UserRequest);
@@ -48,7 +48,7 @@ class UserController {
      * @apiSuccess {String[]} notice
      */
 
-    sign(req: any, res: any, next: function){
+    sign(req: any, res: any, next: any){
         this._add(req, res, (err: any, Res: Response, user:any)=>{
             Res.setData({
                 message: " User was successfull created ",

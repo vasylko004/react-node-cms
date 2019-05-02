@@ -8,10 +8,10 @@ const ObjectId = mongoose.Types.ObjectId;
 // it is abstract class and used only for inheritance
 class DefaultModel{
     // these properties must be initialized in child classes
-    schema:mongoose.Schema = null;
-    modelDB:mongoose.Model = null;
-    name:string = "default";
-    validator: Joi.Schema;
+    schema:mongoose.Schema;
+    modelDB:mongoose.Model;
+    name:string;
+    validator:Joi.Schema;
 
     constructor(name:string){
         this.name = name;
@@ -64,10 +64,10 @@ class DefaultModel{
     create(data: any){
         let promise = new Promise((resolve, reject)=>{
             async.waterfall([
-                (callback: function)=>{ // validation data ( validator need to be initializied in child models )
+                (callback: any)=>{ // validation data ( validator need to be initializied in child models )
                     Joi.validate(data, this.validator, callback);
                 },
-                (callback: function)=>{
+                (callback: any)=>{
                     this.modelDB.create(data, callback)
                 }
             ], function(error: any, result: any){
