@@ -20,11 +20,13 @@ var _async = require('async');
 
 var async = _interopRequireWildcard(_async);
 
+var _errors = require('../helpers/errors');
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ObjectId = mongoose.Types.ObjectId;
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 // it is abstract class and used only for inheritance
 
@@ -42,9 +44,9 @@ var DefaultModel = function () {
             // 
             if (!this.modelDB) {
                 try {
-                    mongoose.model(this.name);
+                    this.modelDB = mongoose.model(this.name);
                 } catch (err) {
-                    mongoose.model(this.name, this.schema);
+                    this.modelDB = mongoose.model(this.name, this.schema);
                 }
             }
         }
@@ -83,7 +85,7 @@ var DefaultModel = function () {
                         } else resolve(doc);
                     });
                 } else {
-                    reject(new new mongoose.Error("Invalid ID")());
+                    reject(new _errors.ValidationError("Invalid ID"));
                 }
             });
 
@@ -98,11 +100,16 @@ var DefaultModel = function () {
                 async.waterfall([function (callback) {
                     // validation data ( validator need to be initializied in child models )
                     Joi.validate(data, _this3.validator, callback);
-                }, function (callback) {
+                }, function (data, callback) {
                     _this3.modelDB.create(data, callback);
                 }], function (error, result) {
+                    console.log(error, result);
                     if (error) {
-                        reject(error);
+                        if (error.code === 11000) {
+                            reject(new _errors.ValidationError(" User with email: " + data.email + " is already created "));
+                        } else {
+                            reject(error);
+                        }
                     } else {
                         resolve(result);
                     }
@@ -126,7 +133,7 @@ var DefaultModel = function () {
                         }
                     });
                 } else {
-                    reject(new mongoose.Error(" Invalid ID "));
+                    reject(new _errors.ValidationError(" Invalid ID "));
                 }
             });
 

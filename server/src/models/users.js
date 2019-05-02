@@ -9,7 +9,7 @@ import DefaultModel from './default-model';
 import { type UserRequestObject } from '../constants/users';
 
 const SALT_FACTOR:number = 12;
-const ObjectId = mongoose.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 class UserModel extends DefaultModel{
     constructor(){

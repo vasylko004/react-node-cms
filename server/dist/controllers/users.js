@@ -38,6 +38,7 @@ var UserController = function () {
             this.model.create(data).then(function (user) {
                 callback(null, Res, user);
             }).catch(function (error) {
+                console.log(error);
                 Res.errorParse(error);
                 Res.send();
             });
@@ -79,7 +80,7 @@ var UserController = function () {
         value: function router() {
             var router = (0, _express.Router)();
 
-            router.post("/sign", this._add.bind(this));
+            router.post("/sign", this.sign.bind(this));
 
             return router;
         }

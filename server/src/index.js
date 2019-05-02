@@ -4,11 +4,15 @@ import { mountRoutes } from './router';
 import mongoose from 'mongoose';
 import { format, parse } from 'express-form-data';
 import { json, urlencoded } from 'body-parser';
-import * as cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
+import os from 'os';
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 const PORT = config.SERVER_PORT || 9000;
 const DB_URI = config.DB_URI || 'mongodb://localhost:27017/';
-const DB_NAME = config.MONGODB_DB || "crm";
+const DB_NAME = config.MONGODB_DB || "cms";
+console.log(config.MONGODB_DB);
 
 mongoose.connect(DB_URI + DB_NAME, {useNewUrlParser: true});
 const options = {

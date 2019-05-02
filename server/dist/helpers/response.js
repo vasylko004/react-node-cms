@@ -55,6 +55,8 @@ var Response = exports.Response = function () {
                     message = error.details[0].message;
                 }
                 this.addError(BAD_REQUEST, message);
+            } else if (error.name === "ValidationError") {
+                this.addError(BAD_REQUEST, error.message);
             } else {
                 this.addError(SERVER_ERROR, "Server Error");
             }

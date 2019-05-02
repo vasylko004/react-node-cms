@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:start": "npm-run-all --parallel server:watch server:build",
-    "server:watch": "nodemon \"./server/dist/server.js\" --watch \"./server/dist\"",
+    "server:watch": "nodemon \"./server/dist/index.js\" --watch \"./server/dist\"",
     "server:build": "babel server/src -d server/dist",
     "server:doc": "apidoc -i server/src -o docs/",
     "flow": "flow"

@@ -3,7 +3,8 @@ import * as mongoose from 'mongoose';
 import * as Joi from 'joi';
 import { Promise } from 'es6-promise';
 import * as async from 'async';
-const ObjectId = mongoose.Types.ObjectId;
+import { ValidationError } from "../helpers/errors";
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 // it is abstract class and used only for inheritance
 class DefaultModel{
@@ -20,9 +21,9 @@ class DefaultModel{
     initModel(){ // 
         if(!this.modelDB){
             try{
-                mongoose.model(this.name);
+                this.modelDB = mongoose.model(this.name);
             }catch(err){
-                mongoose.model(this.name, this.schema);
+                this.modelDB = mongoose.model(this.name, this.schema);
             }
         }
     }
@@ -54,7 +55,7 @@ class DefaultModel{
                     }else resolve(doc);
                 })
             }else{
-                reject(new new mongoose.Error("Invalid ID"));
+                reject(new ValidationError("Invalid ID"));
             }
         });
 
@@ -67,12 +68,17 @@ class DefaultModel{
                 (callback: any)=>{ // validation data ( validator need to be initializied in child models )
                     Joi.validate(data, this.validator, callback);
                 },
-                (callback: any)=>{
-                    this.modelDB.create(data, callback)
+                (data, callback: any)=>{
+                    this.modelDB.create(data, callback);
                 }
             ], function(error: any, result: any){
+                console.log(error, result);
                 if(error){
-                    reject(error);
+                    if(error.code === 11000){
+                        reject(new ValidationError(" User with email: " + data.email + " is already created "));
+                    }else{
+                        reject(error);
+                    }
                 }else{
                     resolve(result);
                 }
@@ -93,7 +99,7 @@ class DefaultModel{
                     }
                 })
             }else{
-                reject(new mongoose.Error(" Invalid ID "));
+                reject(new ValidationError(" Invalid ID "));
             }
         });
 
