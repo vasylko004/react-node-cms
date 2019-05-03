@@ -8,13 +8,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _mongoose = require('mongoose');
 
-var mongoose = _interopRequireWildcard(_mongoose);
+var _mongoose2 = _interopRequireDefault(_mongoose);
 
 var _joi = require('joi');
 
 var Joi = _interopRequireWildcard(_joi);
 
 var _es6Promise = require('es6-promise');
+
+var _es6Promise2 = _interopRequireDefault(_es6Promise);
 
 var _async = require('async');
 
@@ -24,9 +26,11 @@ var _errors = require('../helpers/errors');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var ObjectId = _mongoose2.default.Schema.Types.ObjectId;
 
 // it is abstract class and used only for inheritance
 
@@ -44,9 +48,9 @@ var DefaultModel = function () {
             // 
             if (!this.modelDB) {
                 try {
-                    this.modelDB = mongoose.model(this.name);
+                    this.modelDB = _mongoose2.default.model(this.name);
                 } catch (err) {
-                    this.modelDB = mongoose.model(this.name, this.schema);
+                    this.modelDB = _mongoose2.default.model(this.name, this.schema);
                 }
             }
         }
@@ -56,7 +60,7 @@ var DefaultModel = function () {
             var _this = this;
 
             // this method created for testing api and work only in Test Mode;
-            var promise = (0, _es6Promise.Promise)(function (resolve, reject) {
+            var promise = new _es6Promise2.default(function (resolve, reject) {
                 if (process.env.NODE_ENV === 'test') {
                     _this.modelDB.deleteMany({}, function (err, res) {
                         if (err) {
@@ -77,8 +81,8 @@ var DefaultModel = function () {
         value: function one(id) {
             var _this2 = this;
 
-            var promise = new _es6Promise.Promise(function (resolve, reject) {
-                if (mongoose.Types.ObjectId.isValid(id)) {
+            var promise = new _es6Promise2.default(function (resolve, reject) {
+                if (_mongoose2.default.Types.ObjectId.isValid(id)) {
                     _this2.modelDB.findOne({ _id: id }, function (err, doc) {
                         if (err) {
                             reject(err);
@@ -96,17 +100,16 @@ var DefaultModel = function () {
         value: function create(data) {
             var _this3 = this;
 
-            var promise = new _es6Promise.Promise(function (resolve, reject) {
+            var promise = new _es6Promise2.default(function (resolve, reject) {
                 async.waterfall([function (callback) {
                     // validation data ( validator need to be initializied in child models )
                     Joi.validate(data, _this3.validator, callback);
                 }, function (data, callback) {
                     _this3.modelDB.create(data, callback);
                 }], function (error, result) {
-                    console.log(error, result);
                     if (error) {
                         if (error.code === 11000) {
-                            reject(new _errors.ValidationError(" User with email: " + data.email + " is already created "));
+                            reject(new _errors.ValidationError("UniqueDublication"));
                         } else {
                             reject(error);
                         }
@@ -123,8 +126,8 @@ var DefaultModel = function () {
         value: function _delete(id) {
             var _this4 = this;
 
-            var promise = new _es6Promise.Promise(function (resolve, reject) {
-                if (mongoose.Types.ObjectId.isValid(id)) {
+            var promise = new _es6Promise2.default(function (resolve, reject) {
+                if (_mongoose2.default.Types.ObjectId.isValid(id)) {
                     _this4.modelDB.deleteOne({ _id: id }, function (err, result) {
                         if (err) {
                             reject(err);

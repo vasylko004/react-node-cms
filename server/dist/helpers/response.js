@@ -50,15 +50,16 @@ var Response = exports.Response = function () {
         key: "errorParse",
         value: function errorParse(error) {
             if (error.isJoi) {
-                var message = " Incorect request ";
+                var message = "IncorectRequest";
                 if (error.details.length > 0) {
                     message = error.details[0].message;
+                    this.setData(error.details);
                 }
                 this.addError(BAD_REQUEST, message);
             } else if (error.name === "ValidationError") {
                 this.addError(BAD_REQUEST, error.message);
             } else {
-                this.addError(SERVER_ERROR, "Server Error");
+                this.addError(SERVER_ERROR, "ServerError");
             }
         }
     }, {

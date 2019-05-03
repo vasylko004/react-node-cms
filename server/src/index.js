@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { format, parse } from 'express-form-data';
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
+import { initPassport } from './helpers/passport';
 import os from 'os';
 
 mongoose.set('useFindAndModify', false);
@@ -25,6 +26,7 @@ app.use(format());
 app.use(json());   // parse json request data
 app.use(urlencoded({extended: false})) // parse url encoded request data
 app.use(cookieParser());
+initPassport();
 mountRoutes(app);
 
 

@@ -65,7 +65,7 @@ var UserModel = function (_DefaultModel) {
             password: { type: String, required: true },
             avatar: String,
             role: { type: Number, default: 1 }, // 0 - Administrator
-            verified: Boolean,
+            verified: { type: Boolean, default: true },
             validationCode: String,
             created: { type: Date, default: Date.now },
             updated: { type: Date, default: Date.now }
@@ -127,17 +127,17 @@ var UserModel = function (_DefaultModel) {
                 _this2.modelDB.findOne({ email: email }).then(function (user) {
                     user.comparePassword(password, function (err, isMatch) {
                         if (err) {
-                            reject(null);
+                            reject(err);
                             return false;
                         }
                         if (isMatch) {
                             resolve(user);
                         } else {
-                            reject(null);
+                            reject(new Error("Password not match"));
                         }
                     });
                 }).catch(function (err) {
-                    reject(null);
+                    reject(err);
                 });
             });
 

@@ -16,11 +16,23 @@ var _request = require('../helpers/request');
 
 var _response = require('../helpers/response');
 
+var _passport = require('passport');
+
+var _passport2 = _interopRequireDefault(_passport);
+
+var _jsonwebtoken = require('jsonwebtoken');
+
+var jwt = _interopRequireWildcard(_jsonwebtoken);
+
 var _users3 = require('../constants/users');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var JWT_SECRET_KEY = process.env.AUTH_SECRET_KEY || "CMS_SECRET_KEY";
 
 var UserController = function () {
     function UserController() {
@@ -45,7 +57,7 @@ var UserController = function () {
         }
 
         /**
-         * @api {post}  /api/users
+         * @api {post}  /api/users/signup
          * @apiName CreateUser
          * @apiGroup User
          *
@@ -62,25 +74,86 @@ var UserController = function () {
          * @apiSuccess {Bollean} data.verified is user active
          * @apiSuccess {String[]} warnings
          * @apiSuccess {String[]} notice
+         * 
+         * @apiError (Error 4xx) UniqueDublication Dublication of user email
+         * @apiError (Error 4xx) NeedRequiredField One or more of required fileds is not inputed
+         * @apiError (Error 4xx) IncorrectFormatField One or more fields have incorrect format
+         * @apiError (Error 5xx) ServerError Unexpected server error
+         * 
          */
 
     }, {
-        key: 'sign',
-        value: function sign(req, res, next) {
+        key: 'signup',
+        value: function signup(req, res, next) {
             this._add(req, res, function (err, Res, user) {
                 Res.setData({
                     message: " User was successfull created ",
                     verified: user.verified
                 });
+                Res.status = 201;
                 Res.send();
             });
+        }
+
+        /**
+         * @api {post}  /api/users/signin
+         * @apiName Login
+         * @apiGroup User
+         *
+         * @apiParam {String} [email] User email
+         * @apiParam {String} [password] password need have min 6 and max 30 symbols
+         * 
+         * @apiSuccess {Number} status HTTP Status Code
+         * @apiSuccess {Object} data Response data
+         * @apiSuccess {Object} data.user 
+         * @apiSuccess {String} data.user._id
+         * @apiSuccess {String} data.user.firstName
+         * @apiSuccess {String} data.user.lastName
+         * @apiSuccess {String} data.user.email
+         * @apiSuccess {String} data.user.avatar
+         * @apiSuccess {String} data.user.created
+         * @apiSuccess {String} data.user.updated
+         * @apiSuccess {String} data.token Access Token
+         * @apiSuccess {String[]} warnings
+         * @apiSuccess {String[]} notice
+         * 
+         * @apiError (Error 4xx) IncorectCredetials User with sended email not found
+         * @apiError (Error 4xx) FieledAuthetication Fieled Creating 
+         * @apiError (Error 5xx) ServerError Unexpected server error     * 
+         * 
+         */
+
+    }, {
+        key: 'signin',
+        value: function signin(req, res, next) {
+            var Res = new _response.Response(res);
+
+            _passport2.default.authenticate('local', { session: false }, function (err, user, info) {
+                if (err || !user) {
+                    Res.addError(_response.BAD_REQUEST, "IncorectCredetials");
+                    return Res.send();
+                }
+
+                req.login(user, { session: false }, function (err) {
+                    if (err) {
+                        Res.addError(_response.UNAUTH, "FieledAuthetication");
+                        return Res.send();
+                    }
+
+                    delete user.password;
+                    var token = jwt.sign(user.toJSON(), JWT_SECRET_KEY);
+                    Res.setData({ user: user, token: token });
+                    return Res.send();
+                });
+            })(req, res, next);
         }
     }, {
         key: 'router',
         value: function router() {
             var router = (0, _express.Router)();
 
-            router.post("/sign", this.sign.bind(this));
+            router.post("/signup", this.signup.bind(this));
+            router.post("/signin", this.signin.bind(this));
 
             return router;
         }

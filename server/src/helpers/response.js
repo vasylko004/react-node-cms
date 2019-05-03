@@ -41,15 +41,16 @@ export class Response {
 
     errorParse(error: any){
         if(error.isJoi){
-            let message = " Incorect request "
+            let message = "IncorectRequest";
             if(error.details.length > 0){
                 message = error.details[0].message
+                this.setData(error.details);
              }
             this.addError(BAD_REQUEST, message)
         }else if(error.name === "ValidationError"){
             this.addError(BAD_REQUEST, error.message)
         }else{
-            this.addError(SERVER_ERROR, "Server Error");
+            this.addError(SERVER_ERROR, "ServerError");
         }
     }
     

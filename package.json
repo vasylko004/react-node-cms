@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "mocha:unit": "mocha \"./server/test/**/*.test.js\"",
+    "test:server:unit": "NODE_ENV=test npm-run-all server:build mocha:unit",
     "server:start": "npm-run-all --parallel server:watch server:build",
     "server:watch": "nodemon \"./server/dist/index.js\" --watch \"./server/dist\"",
     "server:build": "babel server/src -d server/dist",
@@ -42,6 +44,9 @@
     "mongoose": "^5.5.2",
     "nodemon": "^1.18.11",
     "npm-run-all": "^4.1.5",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "uniqid": "^5.0.3"
   },
   "devDependencies": {

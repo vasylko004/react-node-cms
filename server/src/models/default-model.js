@@ -1,7 +1,7 @@
 // @flow
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import * as Joi from 'joi';
-import { Promise } from 'es6-promise';
+import Promise from 'es6-promise';
 import * as async from 'async';
 import { ValidationError } from "../helpers/errors";
 const ObjectId = mongoose.Schema.Types.ObjectId;
@@ -29,7 +29,7 @@ class DefaultModel{
     }
 
     clearDatabase(){ // this method created for testing api and work only in Test Mode;
-        var promise = Promise((resolve, reject)=>{
+        var promise = new Promise((resolve, reject)=>{
             if(process.env.NODE_ENV === 'test'){
                 this.modelDB.deleteMany({}, function(err: any, res: any){
                     if(err){
@@ -72,10 +72,9 @@ class DefaultModel{
                     this.modelDB.create(data, callback);
                 }
             ], function(error: any, result: any){
-                console.log(error, result);
                 if(error){
                     if(error.code === 11000){
-                        reject(new ValidationError(" User with email: " + data.email + " is already created "));
+                        reject(new ValidationError("UniqueDublication"));
                     }else{
                         reject(error);
                     }

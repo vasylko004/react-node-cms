@@ -20,6 +20,8 @@ var _cookieParser = require('cookie-parser');
 
 var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
+var _passport = require('./helpers/passport');
+
 var _os = require('os');
 
 var _os2 = _interopRequireDefault(_os);
@@ -44,6 +46,7 @@ app.use((0, _expressFormData.format)());
 app.use((0, _bodyParser.json)()); // parse json request data
 app.use((0, _bodyParser.urlencoded)({ extended: false })); // parse url encoded request data
 app.use((0, _cookieParser2.default)());
+(0, _passport.initPassport)();
 (0, _router.mountRoutes)(app);
 
 app.use(function (err, req, res, next) {

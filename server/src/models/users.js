@@ -22,7 +22,7 @@ class UserModel extends DefaultModel{
             password: { type: String , required: true },
             avatar: String,
             role: {type: Number, default: 1}, // 0 - Administrator
-            verified: Boolean,
+            verified: { type: Boolean, default: true},
             validationCode: String,
             created: { type: Date, default: Date.now },
             updated: { type: Date, default: Date.now}
@@ -76,18 +76,18 @@ class UserModel extends DefaultModel{
                 .then((user)=>{
                     user.comparePassword(password, (err,isMatch)=>{
                     if(err){
-                        reject(null)
+                        reject(err);
                         return false;
                     }
                     if(isMatch){
                         resolve(user);
                     }else{
-                        reject(null);
+                        reject(new Error("Password not match"));
                     }
                     })
                 })
                 .catch((err)=>{
-                    reject(null)
+                    reject(err)
                 });
         })
 
