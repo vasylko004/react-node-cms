@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga';
 import reducer from './reducers';
+import actionsSaga from './sagas';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './materialize.min.css';
 import './App.css';
@@ -12,6 +13,8 @@ import './App.css';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+
+sagaMiddleware.run(actionsSaga);
 
 class App extends Component {
   render() {

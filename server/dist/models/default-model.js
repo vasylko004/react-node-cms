@@ -100,13 +100,25 @@ var DefaultModel = function () {
         value: function create(data) {
             var _this3 = this;
 
+            var before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+            var after = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+            // before - list functions which will used after validation and before creation
+            // before function need to have to params data and callback for ex: (data, callback)=>{ /* code which changes data */ callback(null, data) }
+            var listCallbacks = [function (callback) {
+                // validation data ( validator need to be initializied in child models )
+                Joi.validate(data, _this3.validator, callback);
+            }];
+            for (var i = 0; i < before.length; i++) {
+                listCallbacks.push(before[i]);
+            }
+            listCallbacks.push(function (data, callback) {
+                _this3.modelDB.create(data, callback);
+            });
+            for (var _i = 0; _i < after.length; _i++) {
+                listCallbacks.push(after[_i]);
+            }
             var promise = new _es6Promise2.default(function (resolve, reject) {
-                async.waterfall([function (callback) {
-                    // validation data ( validator need to be initializied in child models )
-                    Joi.validate(data, _this3.validator, callback);
-                }, function (data, callback) {
-                    _this3.modelDB.create(data, callback);
-                }], function (error, result) {
+                async.waterfall(listCallbacks, function (error, result) {
                     if (error) {
                         if (error.code === 11000) {
                             reject(new _errors.ValidationError("UniqueDublication"));

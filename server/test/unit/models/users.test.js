@@ -112,7 +112,7 @@ describe("UserModel", function(){
             })
         })
 
-        it("should take validation error, whe we use incoreect ID", function(done){
+        it("should take validation error, whe we use incorrect ID", function(done){
             User.one("zzz").then((result)=>{
                 done(new Error("it needs return  error instead success result"))
             }).catch((err)=>{

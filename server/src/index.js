@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import { initPassport } from './helpers/passport';
 import os from 'os';
 
+mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 const PORT = config.SERVER_PORT || 9000;

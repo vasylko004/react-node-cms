@@ -62,16 +62,26 @@ class DefaultModel{
         return promise;
     }
 
-    create(data: any){
-        let promise = new Promise((resolve, reject)=>{
-            async.waterfall([
-                (callback: any)=>{ // validation data ( validator need to be initializied in child models )
-                    Joi.validate(data, this.validator, callback);
-                },
-                (data, callback: any)=>{
-                    this.modelDB.create(data, callback);
-                }
-            ], function(error: any, result: any){
+    create(data: any, before: Array<any> = [], after: Array<any> = []){  // before - list functions which will used after validation and before creation
+        // before function need to have to params data and callback for ex: (data, callback)=>{ /* code which changes data */ callback(null, data) }
+        // after - list functions wich will used after create function and need to have structure (doc, callback)=>{ /* code which changes doc */ collback(null, doc) }
+        let listCallbacks: Array<any> = [
+            (callback: any)=>{ // validation data ( validator need to be initializied in child models )
+                Joi.validate(data, this.validator, callback);
+            }
+        ]
+        for (let i = 0; i < before.length; i++) {
+            listCallbacks.push(before[i]);
+        }
+        listCallbacks.push((data, callback: any)=>{
+            this.modelDB.create(data, callback);
+        });
+        for (let i = 0; i < after.length; i++) {
+            listCallbacks.push(after[i]);
+            
+        }
+        let promise = new Promise((resolve, reject)=>{                   
+            async.waterfall(listCallbacks, function(error: any, result: any){
                 if(error){
                     if(error.code === 11000){
                         reject(new ValidationError("UniqueDublication"));

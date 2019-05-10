@@ -28,6 +28,7 @@ var _os2 = _interopRequireDefault(_os);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+_mongoose2.default.set('useNewUrlParser', true);
 _mongoose2.default.set('useFindAndModify', false);
 _mongoose2.default.set('useCreateIndex', true);
 var PORT = _config.config.SERVER_PORT || 9000;

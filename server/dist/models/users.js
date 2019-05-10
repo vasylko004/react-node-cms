@@ -146,7 +146,16 @@ var UserModel = function (_DefaultModel) {
     }, {
         key: 'create',
         value: function create(data) {
-            return _get(UserModel.prototype.__proto__ || Object.getPrototypeOf(UserModel.prototype), 'create', this).call(this, data);
+            var _this3 = this;
+
+            return _get(UserModel.prototype.__proto__ || Object.getPrototypeOf(UserModel.prototype), 'create', this).call(this, data, [function (data, callback) {
+                _this3.modelDB.countDocuments({}, callback);
+            }, function (count, callback) {
+                if (count === 0) {
+                    data.role = 0;
+                }
+                callback(null, data);
+            }], []);
         }
     }]);
 

@@ -95,7 +95,17 @@ class UserModel extends DefaultModel{
     }
 
     create(data: UserRequestObject){
-        return super.create(data);
+        return super.create(data, [
+        (data, callback)=>{
+            this.modelDB.countDocuments({}, callback);
+        },
+        (count, callback)=>{
+            if(count === 0){
+                data.role = 0;
+            }
+            callback(null, data);
+        }
+        ], []);
     }
     
 }
