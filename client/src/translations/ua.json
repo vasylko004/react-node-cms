@@ -1,0 +1,6 @@
+{
+    "login.signup": "Реєстрація",
+    "login.signin": "Авторизація",
+    "login.input.name.title": "Name",
+    "login.input.name.placeholder": "type your email"
+}

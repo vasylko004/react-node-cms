@@ -23,6 +23,40 @@
   color: #61dafb;
 }
 
+.p-t5{
+  padding-top: 25px;
+}
+
+.p-b5{
+  padding-bottom:  25px;
+}
+
+.p-f1{
+  padding: 5px;
+}
+
+.card-form{
+  border: solid 1px #eeeeee;
+  padding: 40px;
+  margin-top: 50px;
+  box-shadow: 1px 1px 10px #33333333;
+}
+
+.form-title{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 26px;
+  color: #888c88;
+  text-align: center;
+  font-weight: 700;
+}
+
+.action-text{
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0px 5px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
