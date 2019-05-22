@@ -1,5 +1,6 @@
 [ignore]
-./server/src
+./server/node_modules
+./client/node_modules
 
 [include]
 

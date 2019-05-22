@@ -1,5 +1,6 @@
 //@flow
 import React, { Component, Fragment} from 'react';
+import Joi from '@hapi/joi';
 
 type Props = {
     classes?: string,
@@ -8,14 +9,17 @@ type Props = {
     helperText?: string,
     type?: "text"|"email"|"number"|"password",
     name: string,
-    error?: string,
+    errorMessage?: string,
+    isInvalid?: boolean, 
     value?: string,
     disabled?: boolean,
     onChange?: (text:string)=>void,
+    validation: Joi.Any | Joi.String | Joi.Email | Joi.Number
 }
 
 type State = {
-    active: boolean
+    active: boolean,
+    isInvalid: boolean
 }
 
 class TextField extends Component<Props, State>{
@@ -25,7 +29,8 @@ class TextField extends Component<Props, State>{
         super(props);
 
         this.state = {
-            active: false
+            active: false,
+            isInvalid: false
         }
 
         this.inputRef = null;
@@ -33,16 +38,29 @@ class TextField extends Component<Props, State>{
 
     handleInputFocus():void{
         this.setState({ active: true })
+        if(this.inputRef) this.inputRef.focus();
     }
 
     handleInputBlur():void{
-        this.setState({active: false});
+        if(!(this.inputRef && this.inputRef.value)){
+            this.setState({active: false});
+        }
     }
+
+    setAsInvalid(){
+        this.setState({ isInvalid: true });
+    }
+
+    setAsValid(){
+        this.setState({ isInvalid: false });
+    }
+
 
     render(){
         const handleInputFocus:()=>void = this.handleInputFocus.bind(this);
         const handleInputBlur:()=>void = this.handleInputBlur.bind(this);
-        let {classes, placeholder, helperText, error, disabled, type} = this.props;
+        let {classes, placeholder, helperText, errorMessage, disabled, type, name} = this.props;
+        let isInvalid = this.props.isInvalid || this.state.isInvalid; 
         let {active} = this.state;
         const labelFiled:string = this.props.label;
         if(!classes) classes = "";
@@ -55,9 +73,9 @@ class TextField extends Component<Props, State>{
         if(placeholder) propeties["placeholder"] = placeholder;
 
         return (<div className={ "input-field " + classes}>
-            <input type={type?type:"text"} className={error?"validate invalid":""} {...propeties} autoComplete={type === 'password'?"off":"on"} ref={(input)=>{ this.inputRef = input }} onFocus={handleInputFocus} onBlur={handleInputBlur} />
-            <label className={placeholder||active?"active":""}>{labelFiled}</label>
-            {helperText?(<span className="helper-text" data-error={error?error:""}>{ helperText }</span>):(<Fragment />)}
+            <input type={type?type:"text"} name={name} className={isInvalid?"validate invalid":""} {...propeties} autoComplete={type === 'password'?"off":""} ref={(input)=>{ this.inputRef = input }} onFocus={handleInputFocus} onBlur={handleInputBlur} />
+            <label className={placeholder||active?"active":""} onClick={handleInputFocus}>{labelFiled}</label>
+            {helperText||isInvalid?(<span className="helper-text" data-error={errorMessage?errorMessage:"error"}>{ helperText }</span>):(<Fragment />)}
         </div>)
     }
 }
