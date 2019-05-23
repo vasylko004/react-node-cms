@@ -9,6 +9,8 @@ import createSagaMiddleware from 'redux-saga';
 import messages_en from './translations/en';
 import reducer from './reducers';
 import actionsSaga from './sagas';
+import Header from './containers/admin/header';
+import DashboardPage from './containers/admin/dashboard';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './materialize.min.css';
 import './App.css';
@@ -24,9 +26,12 @@ class App extends Component {
     return (<Provider store={store}>
       <IntlProvider locale="en" messages={messages_en}>
         <Router>
+
+          <Route path="/admin/" component={Header} />
           <Switch>
             <Route exact path="/" component={DefaultPage} />
             <Route exact path="/admin/login" component={LoginPage} />
+            <Route path="/admin/dashboard" component={DashboardPage} />
           </Switch>
         </Router>
       </IntlProvider>

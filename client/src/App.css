@@ -35,6 +35,10 @@
   padding: 5px;
 }
 
+.p-l5{
+  padding-left: 25px;
+}
+
 .card-form{
   border: solid 1px #eeeeee;
   padding: 40px;
@@ -55,6 +59,19 @@
   cursor: pointer;
   display: inline-block;
   padding: 0px 5px;
+}
+
+.user-sign-module{
+  float: none;
+  display: flex;
+  padding-right: 10px;
+  align-items: center;
+}
+
+.user-sign-module img{
+  width: 40px;
+  height: 40px;
+  padding-left: 5px;
 }
 
 @keyframes App-logo-spin {
