@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Form, {type DataType, validateData} from './form';
 import TextField from '../inputs/text-filed';
+import { type STATUSES } from '../../constants';
 import Joi from '@hapi/joi';
 import Button from '../buttons';
 import CheckBox from '../inputs/checkbox';
@@ -13,8 +14,12 @@ type State = {
     }
 }
 
-class SignInForm extends Component<{},State>{
-    constructor(props:{}){
+type Props = {
+    status?: STATUSES
+}
+
+class SignInForm extends Component<Props,State>{
+    constructor(props:Props){
         super(props);
 
         this.state = { data:{
@@ -46,9 +51,10 @@ class SignInForm extends Component<{},State>{
 
     render(){
         let { email, password } = this.state.data;
+        let { status } = this.props;
         let handleSubmit:(data:{})=>void = this.handleSubmit.bind(this);
         return (<div  className="card-form">
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} status={status||0} successOutput={<div></div>}>
                 <p className="form-title p-b5"> Sign In </p>
                 <TextField name="email" type="email" label="Email" validation={email.validation} isInvalid={email.error}  />
                 <TextField name="password" type="password" label="Password" validation={password.validation} isInvalid={password.error} />

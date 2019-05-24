@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Joi from '@hapi/joi';
 import Form, {type DataType, validateData} from './form';
+import { type STATUSES, type RequestSignUP } from '../../constants';
 import TextField from '../inputs/text-filed';
 import Button from '../buttons';
 
@@ -16,8 +17,13 @@ type State = {
     }
 }
 
-class SignUpFrom extends Component<{}, State>{
-    constructor(props: {}){
+type Props = {
+    status?: STATUSES,
+    onSubmit: (data:RequestSignUP)=>void
+}
+
+class SignUpFrom extends Component<Props, State>{
+    constructor(props: Props){
         super(props);
 
         this.state = {
@@ -50,7 +56,7 @@ class SignUpFrom extends Component<{}, State>{
         }
     }
 
-    handleSubmit(DATA:{password?: string, password_repeat?: string}):void{
+    handleSubmit(DATA:RequestSignUP):void{
         let {data} = this.state
         /* */
         let result = validateData(DATA, data);
@@ -62,22 +68,24 @@ class SignUpFrom extends Component<{}, State>{
         this.setState({
             data: data
         });
+        
         if(!result.hasAnyError){
-            
+            if(this.props.onSubmit) this.props.onSubmit(DATA);
         }
     }
 
     render(){
         const handleSubmit = this.handleSubmit.bind(this);
+        let { status } = this.props;
         let {data} = this.state;
         return <div className="card-form">
-            <Form onSubmit={handleSubmit} >
+            <Form onSubmit={handleSubmit} status={ status||0 } >
                 <p className="form-title p-b5"> Sign Up </p>
                 <TextField name="username" label="Username" validation={data.username.validation} isInvalid={data.username.error} />
                 <TextField name="email" type="email" label="Email" validation={data.email.validation} isInvalid={data.email.error}  />
                 <TextField name="firstName" label="First Name" validation={data.firstName.validation} isInvalid={data.firstName.error} />
                 <TextField name="lastName" label="Last Name" validation={data.lastName.validation} isInvalid={data.lastName.error} />
-                <TextField name="password" type="password" label="Password" validation={data.password.validation}isInvalid={data.password.error} />
+                <TextField name="password" type="password" label="Password" validation={data.password.validation} isInvalid={data.password.error} />
                 <TextField name="password_repeat" type="password" label="Repeat Password" validation={data.password_repeat.validation} isInvalid={data.password_repeat.error} />
                 <div className="center-align p-t5">
                     <Button size="large"> Submit </Button>

@@ -1,7 +1,9 @@
+import { type USER } from '../constants';
+
 export type USERS = {
-    current: object|null,
+    current: USER|null,
     token: string,
-    list: Array<object>
+    list: Array<USER>
 }
 
 export let users:USERS = {

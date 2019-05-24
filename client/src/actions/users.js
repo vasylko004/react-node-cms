@@ -1,20 +1,11 @@
 //@flow
 import axios from 'axios';
-import { SERVER ,type USER } from '../constants';
+import { SERVER ,type USER, type RequestSignUP } from '../constants';
 
-export function signup(data:{
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    role: ?number
-}){
+export function signup(data:RequestSignUP){
     let promise:Promise<any> = new Promise((resolve: ()=>void, reject: (error: Error)=>void)=>{
-        axios.post({
-            url: SERVER.apihost + SERVER.URI.POST.signup,
-            method: "POST",
-            data: data
-        }).then((response)=>{
+        console.log();
+        axios.post( SERVER.apihost + SERVER.URI.POST.signup, data ).then((response)=>{
             resolve();
         }).catch((error)=>{
             reject(error)

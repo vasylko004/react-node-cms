@@ -1,12 +1,14 @@
 // @flow
 import React, { Component, type Element } from 'react';
+import { type STATUSES } from '../../constants';
 import Joi from '@hapi/joi';
 
 type Props = {
     validationType?:"formsubmit"|"inputchange"|"inputblur",
     onSubmit?:(data:any)=>void,
     fieldsData?:any,
-    children?: Array<Element<any>>
+    children?: Array<Element<any>>,
+    status: STATUSES
 }
 
 type DataForm = {
@@ -88,38 +90,7 @@ class Form extends Component<Props, State>{
                 }                
             }   
         }
-        /*let { data } = this.state;
-        let invalidfields:any = {}
-        let verifiedData:Array<VerifiedFormData> = []
-        let hasAnyError:boolean = false;
-        for (let i = 0; i < data.length; i++) {
-            const result = Joi.validate(data[i].value, data[i].validation);
-            if(result.error){
-                data[i].isValid = false;
-                invalidfields[data[i].name] = true;
-                hasAnyError = true;
-                //data[i].el.setAsInvalid();
-            }else{
-                invalidfields[data[i].name] = false;
-
-                //data[i].el.setAsValid();
-                verifiedData.push({
-                    name: data[i].name,
-                    value: data[i].value
-                });
-            }
-        }
-
-        if(hasAnyError){
-            this.setState({data: data});
-            if(this.props.onSubmit){
-                this.props.onSubmit(null, invalidfields);
-            }
-        }else{
-            if(this.props.onSubmit){
-                this.props.onSubmit(verifiedData, null);
-            }
-        }*/
+        /* */
         if(this.props.onSubmit) this.props.onSubmit(data);
     }
 
@@ -134,7 +105,7 @@ class Form extends Component<Props, State>{
     }
 
     render(){
-        let { children } = this.props;
+        let { children, status } = this.props;
         //let { data } = this.state;
         const handleSubmit = this.handleSubmit.bind(this);
         /*for (let i = 0; i < data.length; i++) {
@@ -144,6 +115,21 @@ class Form extends Component<Props, State>{
             //console.log(data[i].el);
         }*/
         return <form ref={(input)=>{ this.formRef = input }} onSubmit={handleSubmit}>
+            {status===1?(<div className="form-panding-response">
+                <div className="preloader-wrapper big active">
+                    <div className="spinner-layer spinner-blue-only">
+                    <div className="circle-clipper left">
+                        <div className="circle"></div>
+                    </div><div className="gap-patch">
+                        <div className="circle"></div>
+                    </div><div className="circle-clipper right">
+                        <div className="circle"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>):(<span></span>)}
+            {status===2?(<div className="notice_success"> Success </div>):(<span></span>)}
+            {status===3?(<div className="notice_error"> Error </div>):(<span></span>)}
             {children}
         </form>
     }
