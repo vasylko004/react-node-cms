@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Form, {type DataType, validateData} from './form';
 import TextField from '../inputs/text-filed';
-import { type STATUSES } from '../../constants';
+import { type STATUSES, type RequestSignUP } from '../../constants';
 import Joi from '@hapi/joi';
 import Button from '../buttons';
 import CheckBox from '../inputs/checkbox';
@@ -15,7 +15,8 @@ type State = {
 }
 
 type Props = {
-    status?: STATUSES
+    status?: STATUSES,
+    onSubmit?: (data:{email: string, password: string})=>void
 }
 
 class SignInForm extends Component<Props,State>{
@@ -35,17 +36,15 @@ class SignInForm extends Component<Props,State>{
         }
     }
 
-    handleSubmit(DATA:{}):void{
+    handleSubmit(DATA:{email: string, password: string}):void{
         let {data} = this.state
         /* */
         let result = validateData(DATA, data);
         this.setState({
             data: data
         });
-        if(result.hasAnyError){
-
-        }else{
-
+        if(!result.hasAnyError){
+           if(this.props.onSubmit) this.props.onSubmit(DATA);
         }
     }
 
@@ -62,7 +61,6 @@ class SignInForm extends Component<Props,State>{
                 <div className="center-align p-t5">
                     <Button size="large"> Submit </Button>
                 </div>
-
             </Form>
         </div>);
     }

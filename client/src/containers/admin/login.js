@@ -3,13 +3,17 @@ import React, {Component, Fragment} from 'react';
 import SignUpFrom from '../../components/forms/singup';
 import SignInForm from '../../components/forms/signin';
 import { connect } from 'react-redux';
-import { type STATUSES, type USER, type RequestSignUP, REQUEST_SIGN_UP, UPDATE_FORM_STATUS} from '../../constants';
+import { Redirect } from 'react-router-dom';
+import { type STATUSES, type USER, type RequestSignUP, REQUEST_SIGN_UP, UPDATE_FORM_STATUS, REQUEST_SIGN_IN} from '../../constants';
 
 type Props = {
     signUpStatus: STATUSES,
     signInStatus: STATUSES,
+    currentUser: USER,
+    token: string,
     resetSignUpForm: ()=>void,
-    submitRequestSubmit: (data: RequestSignUP)=>void
+    submitRequestSignUp: (data: RequestSignUP)=>void,
+    submitRequestSignIn: (data: {email: string, password: string})=>void
 }
 
 type State = {
@@ -31,29 +35,40 @@ class LoginPage extends Component<Props, State>{
         }
     }
 
-    handleSubmit(data: RequestSignUP){
-        if(this.props.submitRequestSubmit){
-            this.props.submitRequestSubmit(data);
+    handleSignUpSubmit(data: RequestSignUP){
+        if(this.props.submitRequestSignUp){
+            this.props.submitRequestSignUp(data);
+        }
+    }
+
+    handleSignInSubmit(data: { email: string, password: string }){
+        if(this.props.submitRequestSignIn){
+            this.props.submitRequestSignIn(data);
         }
     }
 
     render(){
         let {activeForm } = this.state;
-        let { signUpStatus,  signInStatus } = this.props
-        const handleSubmit = this.handleSubmit.bind(this);
+        let { signUpStatus,  signInStatus, currentUser, token } = this.props
+        const handleSignUpSubmit = this.handleSignUpSubmit.bind(this);
+        const handleSignInSubmit = this.handleSignInSubmit.bind(this);
+        if(currentUser && token){
+            return <Redirect to="/admin/dashboard" />
+        }
+        //console.log(signUpStatus,  signInStatus, this.props);
         return (<div className="p-t5 p-b5">
             <div className="row">
                 <div className="col s12 l3">
 
                 </div>
                 <div className="col s12 l6">
-                {activeForm === 'signup'?<Fragment>
-                        <SignUpFrom status={signUpStatus} onSubmit={handleSubmit} />
+                {activeForm === 'signup'?(<Fragment>
+                        <SignUpFrom status={signUpStatus} onSubmit={handleSignUpSubmit} />
                         <p className="p-t5 center-align"> Have an account? <span className="action-text" onClick={this.changeForm("signin")}> Sign In </span> </p>
-                    </Fragment>:<Fragment>
-                        <SignInForm status={signInStatus} />
+                    </Fragment>):(<Fragment>
+                        <SignInForm status={signInStatus} onSubmit={handleSignInSubmit} />
                         <p className="p-t5 center-align"> Don't have an account? <span className="action-text" onClick={this.changeForm("signup")}> Sign Up </span> </p>
-                    </Fragment>}
+                    </Fragment>)}
                 </div>
                 <div className="col s12 l3">
 
@@ -65,12 +80,17 @@ class LoginPage extends Component<Props, State>{
 
 export default connect(state=>({
     signUpStatus: state.forms.signup,
-    signInStatus: state.forms.signin
+    signInStatus: state.forms.signin,
+    currentUser: state.users.current,
+    token: state.users.token
 }), dispatch=>({
     resetSignUpForm: ()=>{
         dispatch({ type: UPDATE_FORM_STATUS, data: { formName: "signup", status: 0 } });
     },
-    submitRequestSubmit: (data:RequestSignUP)=>{
+    submitRequestSignUp: (data:RequestSignUP)=>{
         dispatch({type: REQUEST_SIGN_UP, data: data})
+    },
+    submitRequestSignIn: (data: {email: string, password: string})=>{
+        dispatch({ type: REQUEST_SIGN_IN, data: data });
     }
 }))(LoginPage);

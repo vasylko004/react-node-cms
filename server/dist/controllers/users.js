@@ -119,7 +119,7 @@ var UserController = function () {
          * 
          * @apiError (Error 4xx) IncorectCredetials User with sended email not found
          * @apiError (Error 4xx) FieledAuthetication Fieled Creating 
-         * @apiError (Error 5xx) ServerError Unexpected server error     * 
+         * @apiError (Error 5xx) ServerError Unexpected server error
          * 
          */
 
@@ -127,7 +127,7 @@ var UserController = function () {
         key: 'signin',
         value: function signin(req, res, next) {
             var Res = new _response.Response(res);
-
+            req.body.username = req.body.email;
             _passport2.default.authenticate('local', { session: false }, function (err, user, info) {
                 if (err || !user) {
                     Res.addError(_response.BAD_REQUEST, "IncorectCredetials");

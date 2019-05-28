@@ -1,10 +1,21 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { type USER} from '../../constants';
 import UserSign from '../../components/user-sign-module';
 
-class Header extends Component<{},{}>{
+type Props = {
+    user: USER | null
+}
+
+class Header extends Component<Props,{}>{
 
     render(){
+        let { user } = this.props;
+        let name = "";
+        if(user && user.firstName){
+            name = user.firstName;
+        }
         return (<div>
             <nav>
                 <div className="nav-wrapper purple darken-1">
@@ -12,7 +23,7 @@ class Header extends Component<{},{}>{
                       
                    </div>
                    <div className="right">
-                        <UserSign></UserSign>
+                        <UserSign username={name}></UserSign>
                    </div>
                 </div>
             </nav>
@@ -20,4 +31,8 @@ class Header extends Component<{},{}>{
     }
 }
 
-export default Header;
+export default connect(state=>({
+    user: state.users.current
+}),dispatch=>({
+
+}))(Header);

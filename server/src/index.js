@@ -28,6 +28,11 @@ app.use(json());   // parse json request data
 app.use(urlencoded({extended: false})) // parse url encoded request data
 app.use(cookieParser());
 initPassport();
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 mountRoutes(app);
 
 

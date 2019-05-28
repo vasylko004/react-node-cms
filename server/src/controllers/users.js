@@ -94,13 +94,13 @@ class UserController {
      * 
      * @apiError (Error 4xx) IncorectCredetials User with sended email not found
      * @apiError (Error 4xx) FieledAuthetication Fieled Creating 
-     * @apiError (Error 5xx) ServerError Unexpected server error     * 
+     * @apiError (Error 5xx) ServerError Unexpected server error
      * 
      */
 
     signin(req: any, res: any, next: any){
         let Res = new Response(res);
-
+        req.body.username = req.body.email;
         passport.authenticate('local', {session: false}, (err, user, info) => {
             if (err || !user) {
                 Res.addError(BAD_REQUEST, "IncorectCredetials");

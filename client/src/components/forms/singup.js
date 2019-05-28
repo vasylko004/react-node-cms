@@ -19,7 +19,7 @@ type State = {
 
 type Props = {
     status?: STATUSES,
-    onSubmit: (data:RequestSignUP)=>void
+    onSubmit?: (data:RequestSignUP)=>void
 }
 
 class SignUpFrom extends Component<Props, State>{

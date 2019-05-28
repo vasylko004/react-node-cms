@@ -48,6 +48,11 @@ app.use((0, _bodyParser.json)()); // parse json request data
 app.use((0, _bodyParser.urlencoded)({ extended: false })); // parse url encoded request data
 app.use((0, _cookieParser2.default)());
 (0, _passport.initPassport)();
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 (0, _router.mountRoutes)(app);
 
 app.use(function (err, req, res, next) {

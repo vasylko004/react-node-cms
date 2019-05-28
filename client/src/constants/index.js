@@ -2,6 +2,7 @@
 export const UPDATE_AUTH_USER:string = "UPDATE_AUTH_USER";
 export const UPDATE_FORM_STATUS: string = "UPDATE_FORM_STATUS";
 export const REQUEST_SIGN_UP: string = "REQUEST_SIGN_UP";
+export const REQUEST_SIGN_IN: string = "REQUEST_SIGN_IN";
 
 export type USER = {
     _id: string,
@@ -34,7 +35,7 @@ export type RequestSignUP = {
 
 export type ACTION = {
     type: string,
-    data: USER | FROM_STATUS_UPDATE
+    data: {user: USER, token:string } | FROM_STATUS_UPDATE
 }
 
 export const SERVER = {
