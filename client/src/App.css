@@ -98,6 +98,22 @@ form{
   display: flex;
   padding-right: 10px;
   align-items: center;
+  position: relative;
+}
+
+.user-sign-module .dropdown-content{
+  top: 62px;
+  right: 0;
+  min-width: 200px;
+  left: auto;
+}
+
+.user-sign-module .dropdown-content .material-icons{
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 .user-sign-module img{

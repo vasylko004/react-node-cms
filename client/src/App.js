@@ -11,6 +11,7 @@ import reducer from './reducers';
 import actionsSaga from './sagas';
 import Header from './containers/admin/header';
 import DashboardPage from './containers/admin/dashboard';
+import Profile from './containers/admin/profile';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './materialize.min.css';
 import './App.css';
@@ -32,6 +33,7 @@ class App extends Component {
             <Route exact path="/" component={DefaultPage} />
             <Route exact path="/admin/login" component={LoginPage} />
             <Route path="/admin/dashboard" component={DashboardPage} />
+            <Route path="/admin/profile" component={Profile} />
           </Switch>
         </Router>
       </IntlProvider>

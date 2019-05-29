@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Form, {type DataType, validateData} from './form';
 import TextField from '../inputs/text-filed';
-import { type STATUSES, type RequestSignUP } from '../../constants';
+import { type STATUSES } from '../../constants';
 import Joi from '@hapi/joi';
 import Button from '../buttons';
 import CheckBox from '../inputs/checkbox';
