@@ -22,7 +22,7 @@ type Props = {
     onSubmit?: (data:RequestSignUP)=>void
 }
 
-class SignUpFrom extends Component<Props, State>{
+class SignUpForm extends Component<Props, State>{
     constructor(props: Props){
         super(props);
 
@@ -95,4 +95,4 @@ class SignUpFrom extends Component<Props, State>{
     }
 }
 
-export default SignUpFrom;
+export default SignUpForm;

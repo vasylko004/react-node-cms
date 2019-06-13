@@ -1,0 +1,19 @@
+.card.user-info{
+    margin-top: 100px;
+    position: relative;
+    padding-top: 60px;
+}
+.user-info .card-content img{
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    left: 50%;
+    margin-left: -50px;
+    border: solid 2px #489;
+}
+.user-info .user-full-name{
+    
+}

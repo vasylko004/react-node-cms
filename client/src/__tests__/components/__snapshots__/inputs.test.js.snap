@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox input renders testing  1`] = `
+<div
+  className="check-box"
+>
+  <label
+    htmlFor="check_test"
+  >
+    <input
+      defaultChecked={false}
+      id="check_test"
+      name="test"
+      type="checkbox"
+    />
+    <span>
+       
+      test
+       
+    </span>
+  </label>
+</div>
+`;
+
+exports[`Checkbox input renders testing  2`] = `
+<div
+  checked={true}
+  className="check-box"
+>
+  <label
+    htmlFor="check_test"
+  >
+    <input
+      defaultChecked={false}
+      id="check_test"
+      name="test"
+      type="checkbox"
+    />
+    <span>
+       
+      test
+       
+    </span>
+  </label>
+</div>
+`;
+
+exports[`Input renders testing  1`] = `
+<div
+  className="input-field test"
+>
+  <input
+    autoComplete=""
+    className=""
+    name="test"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    placeholder="test"
+    type="text"
+  />
+  <label
+    className="active"
+    onClick={[Function]}
+  />
+  <span
+    className="helper-text"
+    data-error="error"
+  >
+    test
+  </span>
+</div>
+`;
+
+exports[`Input renders testing  2`] = `
+<div
+  className="input-field test"
+>
+  <input
+    autoComplete=""
+    className="validate invalid"
+    name="test"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    placeholder="test"
+    type="text"
+  />
+  <label
+    className="active"
+    onClick={[Function]}
+  />
+  <span
+    className="helper-text"
+    data-error="test"
+  >
+    test
+  </span>
+</div>
+`;
+
+exports[`Input renders testing  3`] = `
+<div
+  className="input-field test"
+>
+  <input
+    autoComplete=""
+    className=""
+    disabled="disabled"
+    name="test"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    placeholder="test"
+    type="text"
+  />
+  <label
+    className="active"
+    onClick={[Function]}
+  />
+  <span
+    className="helper-text"
+    data-error="error"
+  >
+    test
+  </span>
+</div>
+`;

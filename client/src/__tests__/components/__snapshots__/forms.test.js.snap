@@ -1,0 +1,304 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form renders testing 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <span />
+  <span />
+  <span />
+</form>
+`;
+
+exports[`Form renders testing 2`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="form-panding-response"
+  >
+    <div
+      className="preloader-wrapper big active"
+    >
+      <div
+        className="spinner-layer spinner-blue-only"
+      >
+        <div
+          className="circle-clipper left"
+        >
+          <div
+            className="circle"
+          />
+        </div>
+        <div
+          className="gap-patch"
+        >
+          <div
+            className="circle"
+          />
+        </div>
+        <div
+          className="circle-clipper right"
+        >
+          <div
+            className="circle"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <span />
+  <span />
+</form>
+`;
+
+exports[`Form renders testing 3`] = `
+<form
+  onSubmit={[Function]}
+>
+  <span />
+  <div
+    className="notice_success"
+  >
+     Success 
+  </div>
+  <span />
+</form>
+`;
+
+exports[`Form renders testing 4`] = `
+<form
+  onSubmit={[Function]}
+>
+  <span />
+  <span />
+  <div
+    className="notice_error"
+  >
+     Error 
+  </div>
+</form>
+`;
+
+exports[`Sign In Form renders testing 1`] = `
+<div
+  className="card-form"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <span />
+    <span />
+    <span />
+    <p
+      className="form-title p-b5"
+    >
+       Sign In 
+    </p>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete=""
+        className=""
+        name="email"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="email"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Email
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete="off"
+        className=""
+        name="password"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="password"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Password
+      </label>
+    </div>
+    <div
+      className="check-box"
+    >
+      <label
+        htmlFor="check_remember_me"
+      >
+        <input
+          defaultChecked={false}
+          id="check_remember_me"
+          name="remember_me"
+          type="checkbox"
+        />
+        <span>
+           
+          Remember Me
+           
+        </span>
+      </label>
+    </div>
+    <div
+      className="center-align p-t5"
+    >
+      <button
+        className="waves-effect waves-light btn-large"
+      >
+         
+         Submit 
+         
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`Sign Up Form renders testing 1`] = `
+<div
+  className="card-form"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <span />
+    <span />
+    <span />
+    <p
+      className="form-title p-b5"
+    >
+       Sign Up 
+    </p>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete=""
+        className=""
+        name="username"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="text"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Username
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete=""
+        className=""
+        name="email"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="email"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Email
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete=""
+        className=""
+        name="firstName"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="text"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        First Name
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete=""
+        className=""
+        name="lastName"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="text"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Last Name
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete="off"
+        className=""
+        name="password"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="password"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Password
+      </label>
+    </div>
+    <div
+      className="input-field "
+    >
+      <input
+        autoComplete="off"
+        className=""
+        name="password_repeat"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        type="password"
+      />
+      <label
+        className=""
+        onClick={[Function]}
+      >
+        Repeat Password
+      </label>
+    </div>
+    <div
+      className="center-align p-t5"
+    >
+      <button
+        className="waves-effect waves-light btn-large"
+      >
+         
+         Submit 
+         
+      </button>
+    </div>
+  </form>
+</div>
+`;

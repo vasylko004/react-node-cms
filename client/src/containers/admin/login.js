@@ -1,6 +1,6 @@
 //@flow
 import React, {Component, Fragment} from 'react';
-import SignUpFrom from '../../components/forms/singup';
+import SignUpForm from '../../components/forms/singup';
 import SignInForm from '../../components/forms/signin';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -63,7 +63,7 @@ class LoginPage extends Component<Props, State>{
                 </div>
                 <div className="col s12 l6">
                 {activeForm === 'signup'?(<Fragment>
-                        <SignUpFrom status={signUpStatus} onSubmit={handleSignUpSubmit} />
+                        <SignUpForm status={signUpStatus} onSubmit={handleSignUpSubmit} />
                         <p className="p-t5 center-align"> Have an account? <span className="action-text" onClick={this.changeForm("signin")}> Sign In </span> </p>
                     </Fragment>):(<Fragment>
                         <SignInForm status={signInStatus} onSubmit={handleSignInSubmit} />

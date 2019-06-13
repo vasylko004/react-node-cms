@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Buttons rendering tests 1`] = `
+<button
+  className="waves-effect waves-lighttest btn"
+>
+   
+   Test 
+   
+</button>
+`;
+
+exports[`Buttons rendering tests 2`] = `
+<button
+  className="waves-effect waves-lighttest_large btn-large"
+>
+   
+   Test 2 
+   
+</button>
+`;
