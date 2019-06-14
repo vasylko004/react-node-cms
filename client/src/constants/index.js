@@ -38,6 +38,11 @@ export type ACTION = {
     data: {user: USER, token:string } | FROM_STATUS_UPDATE
 }
 
+export type MenuItem = {
+    name: string,
+    url: string
+}
+
 export const SERVER = {
     apihost: "http://localhost:9000",
     URI:{
@@ -47,3 +52,14 @@ export const SERVER = {
         }
     }
 }
+
+export const MenuItems: Array<MenuItem> = [
+    {
+        name: "Dashboard",
+        url: "/admin/dashboard"
+    },
+    {
+        name: "Profile",
+        url: "/admin/profile"
+    }
+]
