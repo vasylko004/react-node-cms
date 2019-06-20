@@ -38,6 +38,7 @@ export function validateData(DATA:{}, validate: {}): {data:{}, hasAnyError:boole
     for(let prop in DATA){
         if(validate[prop]){
             const result = Joi.validate(DATA[prop], validate[prop].validation);
+            //console.log(DATA[prop], result);
             if(result.error){
                 validate[prop].error = true;
                 hasAnyError = true;

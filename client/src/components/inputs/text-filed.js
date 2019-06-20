@@ -59,7 +59,7 @@ class TextField extends Component<Props, State>{
     render(){
         const handleInputFocus:()=>void = this.handleInputFocus.bind(this);
         const handleInputBlur:()=>void = this.handleInputBlur.bind(this);
-        let {classes, placeholder, helperText, errorMessage, disabled, type, name} = this.props;
+        let {classes, placeholder, helperText, errorMessage, disabled, type, name, value} = this.props;
         let isInvalid = this.props.isInvalid || this.state.isInvalid; 
         let {active} = this.state;
         const labelFiled:string = this.props.label;
@@ -67,14 +67,16 @@ class TextField extends Component<Props, State>{
 
         let propeties: {
             disabled?: string,
-            placeholder?: string
+            placeholder?: string,
+            defaultValue?: string
         } = { }
         if(disabled) propeties['disabled'] = "disabled";
         if(placeholder) propeties["placeholder"] = placeholder;
+        if(value) propeties["defaultValue"] = value;
 
         return (<div className={ "input-field " + classes}>
             <input type={type?type:"text"} name={name} className={isInvalid?"validate invalid":""} {...propeties} autoComplete={type === 'password'?"off":""} ref={(input)=>{ this.inputRef = input }} onFocus={handleInputFocus} onBlur={handleInputBlur} />
-            <label className={placeholder||active?"active":""} onClick={handleInputFocus}>{labelFiled}</label>
+            <label className={placeholder||value||active?"active":""} onClick={handleInputFocus}>{labelFiled}</label>
             {helperText||isInvalid?(<span className="helper-text" data-error={errorMessage?errorMessage:"error"}>{ helperText }</span>):(<Fragment />)}
         </div>)
     }

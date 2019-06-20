@@ -7,5 +7,6 @@ export type FORMS = {
 
 export let forms: FORMS = {
     signup: 0,
-    signin: 0
+    signin: 0,
+    editProfile: 0
 }

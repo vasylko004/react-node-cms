@@ -18,6 +18,24 @@ export type USER = {
     token?: string
 }
 
+export type DropDownData = {
+    name: string,
+    value: string | number,
+    icon?: string,
+    group?: string
+}
+
+export type Path = {
+    d: string,
+    fill?: string,
+    type: "path"
+}
+
+export type Group = {
+    paths: Array<Path>,
+    type: "group"
+}
+
 export type STATUSES = 0 | 1 | 2 | 3;   // 0 - active, 1 - pending, 2 - success, 3 - field
 export type FROM_STATUS_UPDATE = {
     formName: string,
@@ -30,7 +48,8 @@ export type RequestSignUP = {
     email: string,
     password: string,
     password_repeat?: String,
-    role: ?number
+    role?: number,
+    verified?: boolean
 }
 
 export type ACTION = {
@@ -48,7 +67,10 @@ export const SERVER = {
     URI:{
         POST:{
             signin: "/api/users/signin",
-            signup: "/api/users/signup"
+            signup: "/api/users/signup",
+        },
+        PUT: {
+            user: '/api/users'
         }
     }
 }

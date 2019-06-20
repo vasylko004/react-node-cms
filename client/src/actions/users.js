@@ -26,3 +26,16 @@ export function signin(data: { email: string,  password: string}){
     
     return promise;
 }
+
+export function updateUser(data: FormData){
+    let promise: Promise<any> = new Promise((resolve, reject)=>{
+        axios.put(SERVER.apihost + SERVER.URI.PUT.user, data).then((response)=>{
+            let result:USER = response.data.data;
+            resolve(result);
+        }).catch((error)=>{
+            reject(error);
+        })
+    });
+
+    return promise;
+}

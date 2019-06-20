@@ -23,3 +23,20 @@
     color: #888888;
     font-size: 2em;
 }
+.profile-edit-form{
+    position: relative;
+}
+.profile-edit-form .card-title{
+    position: absolute;
+    top: -30px;
+    font-size: 18px;
+    width: 90%;
+    margin-left: 5%;
+    padding: 10px 25px;
+    color: #ffffff;
+}
+.profile-edit-form .card-title p{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: #ffffff;
+}

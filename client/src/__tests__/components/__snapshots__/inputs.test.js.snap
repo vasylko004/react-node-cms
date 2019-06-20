@@ -2,7 +2,7 @@
 
 exports[`Checkbox input renders testing  1`] = `
 <div
-  className="check-box"
+  className="check-box test"
 >
   <label
     htmlFor="check_test"
@@ -25,7 +25,7 @@ exports[`Checkbox input renders testing  1`] = `
 exports[`Checkbox input renders testing  2`] = `
 <div
   checked={true}
-  className="check-box"
+  className="check-box test"
 >
   <label
     htmlFor="check_test"

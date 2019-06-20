@@ -138,6 +138,32 @@ ul.sidenav{
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
+.input-field .file-button{
+  color: #444444;
+}
+.input-field .file-label{
+  position: relative;
+}
+.upload-header{
+  border: solid 1px #AAAAAA;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+.upload-header>div{
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.hidden{
+  display: none;
+}
+.font-size-bigger{
+  font-size: 1.4em;
+}
+label .font-size-bigger{
+  margin-right: 7px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
