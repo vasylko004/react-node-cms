@@ -84,7 +84,7 @@ class EditProfileForm extends Component<Props,State>{
             let formData: FormData = new FormData();
             formData.append("email", DATA.email);
             formData.append("firstName", DATA.firstName);
-            formData.append("firstName", DATA.lastName);
+            formData.append("lastName", DATA.lastName);
             if(DATA.password){
                 formData.append("password", DATA.password);
             }

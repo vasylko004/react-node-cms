@@ -6,6 +6,7 @@ import { format, parse } from 'express-form-data';
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { initPassport } from './helpers/passport';
+import { resolve } from 'path';
 import os from 'os';
 
 mongoose.set('useNewUrlParser', true);
@@ -31,8 +32,10 @@ initPassport();
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE, PATCH");
     next();
 });
+
 mountRoutes(app);
 
 

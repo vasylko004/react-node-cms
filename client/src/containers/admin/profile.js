@@ -1,20 +1,32 @@
 // @flow
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { type USER, type STATUSES } from '../../constants';
+import { type USER, type STATUSES, REQUEST_UPDATE_USER, UPDATE_PROFILE_DATA } from '../../constants';
 import { connect } from 'react-redux';
 import EditProfileForm from '../../components/forms/edit-profile';
 import './profile.css';
 
 type Props = {
     user: USER,
-    formStatus: STATUSES
+    profile: USER,
+    formStatus: STATUSES,
+    updateUser: (data: FormData)=> void,
+    setProfileData: (data: USER)=>void
 }
 
 class Profile extends Component<Props, {}>{
+    constructor(props:Props){
+        super(props)
+        props.setProfileData(props.user);
+    }
+
+    handleSubmit(data:FormData): void{
+        if(this.props.updateUser) this.props.updateUser(data);
+    }
 
     render(){
-        let { user, formStatus } = this.props;
+        let { user, profile, formStatus } = this.props;
+        let handleSubmit = this.handleSubmit.bind(this);
 
         if(!user) {
             return <Redirect to="/admin/login" />;
@@ -37,7 +49,7 @@ class Profile extends Component<Props, {}>{
                          Edit 
                     </div>
                     <div className="card-content ">
-                        <EditProfileForm status={formStatus} userData={user}  />
+                        <EditProfileForm status={formStatus} userData={profile} onSubmit={handleSubmit}  />
                     </div>
                 </div>
             </div>
@@ -56,8 +68,14 @@ class Profile extends Component<Props, {}>{
 
 export default connect(state=>({
     user: state.users.current,
+    profile: state.users.profile,
     formStatus: state.forms.editProfile
 }),
 dispatch=>({
-
+    updateUser: (data:FormData)=>{
+        dispatch({type: REQUEST_UPDATE_USER, data: data});
+    },
+    setProfileData: (data: USER)=>{
+        dispatch({type: UPDATE_PROFILE_DATA, data: data});
+    }
 }))(Profile);

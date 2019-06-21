@@ -22,6 +22,8 @@ var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
 var _passport = require('./helpers/passport');
 
+var _path = require('path');
+
 var _os = require('os');
 
 var _os2 = _interopRequireDefault(_os);
@@ -51,8 +53,10 @@ app.use((0, _cookieParser2.default)());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE, PATCH");
     next();
 });
+
 (0, _router.mountRoutes)(app);
 
 app.use(function (err, req, res, next) {

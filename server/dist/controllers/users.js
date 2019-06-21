@@ -61,10 +61,10 @@ var UserController = function () {
          * @apiName CreateUser
          * @apiGroup User
          *
-         * @apiParam {String} [email] User email
-         * @apiParam {String} [firstName] Firstname of the User.
-         * @apiParam {String} [lastName] Lastname of the User.
-         * @apiParam {String} [password] password need have min 6 and max 30 symbols
+         * @apiParam {String} email User email
+         * @apiParam {String} firstName Firstname of the User.
+         * @apiParam {String} lastName Lastname of the User.
+         * @apiParam {String} password password need have min 6 and max 30 symbols
          * @apiParam {File} [avatar] (optional) avatar for User
          * @apiParam {Number} [role] (optional) User's role: 0 - Super Adaministrator, 1 - Administrator, 2 - Editor, 3 - Simple
          * 
@@ -100,8 +100,8 @@ var UserController = function () {
          * @apiName Login
          * @apiGroup User
          *
-         * @apiParam {String} [email] User email
-         * @apiParam {String} [password] password need have min 6 and max 30 symbols
+         * @apiParam {String} email User email
+         * @apiParam {String} password password need have min 6 and max 30 symbols
          * 
          * @apiSuccess {Number} status HTTP Status Code
          * @apiSuccess {Object} data Response data
@@ -148,12 +148,21 @@ var UserController = function () {
             })(req, res, next);
         }
     }, {
+        key: 'update',
+        value: function update(req, res, next) {
+            var Res = new _response.Response(res);
+            console.log(req.body, req.files);
+            Res.addError(_response.BAD_REQUEST, "BadRequest");
+            Res.send();
+        }
+    }, {
         key: 'router',
         value: function router() {
             var router = (0, _express.Router)();
 
             router.post("/signup", this.signup.bind(this));
             router.post("/signin", this.signin.bind(this));
+            router.put("/", this.update.bind(this));
 
             return router;
         }
