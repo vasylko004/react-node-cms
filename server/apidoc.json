@@ -2,5 +2,9 @@
     "name": "CMS Server api",
     "version": "0.0.1",
     "description": " CMS Page Builder Documentation, You can use for create own client builder or extends exist client ",
-    "title": " CMS API Docs"
+    "title": " CMS API Docs",
+    "template": {
+        "withCompare": true,
+        "withGenerator": true
+    }
 }

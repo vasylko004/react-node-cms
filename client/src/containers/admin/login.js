@@ -25,7 +25,7 @@ class LoginPage extends Component<Props, State>{
         super(props);
 
         this.state = {
-            activeForm: "signup"
+            activeForm: "signin"
         }
     }
 

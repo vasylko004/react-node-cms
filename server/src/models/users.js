@@ -94,6 +94,21 @@ class UserModel extends DefaultModel{
         return promise;
     }
 
+    one(id: ObjectId){
+        return super.one(id, [(user:{[string]: string | number | boolean | Date | void})=>{
+            if(user.password) user.password = undefined;
+            return user;
+        }])
+    }
+
+    update(id: ObjectId, data: UserRequestObject){
+        return super.update(id, data, [], [(doc, callback)=>{
+            if(doc.password) doc.password = undefined;
+            console.log(doc, doc.password);
+            callback(null, doc);
+        }])
+    }
+
     create(data: UserRequestObject){
         return super.create(data, [
         (data, callback)=>{

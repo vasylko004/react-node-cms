@@ -14,7 +14,7 @@ export class Request{
         this.request = request;
     }
 
-    fetch(pattern: UserRequestObject){
+    fetch(pattern: {[string]: any}){
         var data = Object.assign({}, pattern);
         for(let prop in data){
             if(this.request.body.hasOwnProperty(prop)){

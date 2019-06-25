@@ -33,8 +33,10 @@ router.get("/", function (req, res) {
 function mountRoutes(app) {
   var Users = new _users2.default();
   var pathDocs = (0, _path.resolve)(__dirname, "../doc");
+  var pathPublic = (0, _path.resolve)(__dirname, "../public");
   console.log(pathDocs);
   app.use('/', router);
   app.use('/api/users', Users.router());
   app.use("/api/docs", express.static((0, _path.join)(pathDocs)));
+  app.use("/static", express.static((0, _path.join)(pathPublic)));
 }

@@ -28,6 +28,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ObjectId = _mongoose2.default.Schema.Types.ObjectId;
@@ -78,7 +80,7 @@ var DefaultModel = function () {
         }
     }, {
         key: 'one',
-        value: function one(id) {
+        value: function one(id, injection) {
             var _this2 = this;
 
             var promise = new _es6Promise2.default(function (resolve, reject) {
@@ -86,7 +88,14 @@ var DefaultModel = function () {
                     _this2.modelDB.findOne({ _id: id }, function (err, doc) {
                         if (err) {
                             reject(err);
-                        } else resolve(doc);
+                        } else {
+                            async.eachSeries(injection, function (item, callback) {
+                                doc = item(doc);
+                                callback();
+                            }, function (err) {
+                                resolve(doc);
+                            });
+                        }
                     });
                 } else {
                     reject(new _errors.ValidationError("Invalid ID"));
@@ -134,13 +143,51 @@ var DefaultModel = function () {
             return promise;
         }
     }, {
-        key: 'delete',
-        value: function _delete(id) {
+        key: 'update',
+        value: function update(id, data, before, after) {
             var _this4 = this;
 
             var promise = new _es6Promise2.default(function (resolve, reject) {
+                var listCallbaks = [function (callback) {
+                    if (_mongoose2.default.Types.ObjectId.isValid(id)) {
+                        Joi.validate(data, _this4.validator, callback);
+                    } else {
+                        callback(new Error("Incorrect id"));
+                    }
+                }];
+
+                if (before) listCallbaks.push.apply(listCallbaks, _toConsumableArray(before));
+
+                listCallbaks.push(function (data, callback) {
+                    //console.log(data);
+                    _this4.modelDB.updateOne({ _id: id }, data, callback);
+                });
+
+                listCallbaks.push(function (doc, callback) {
+                    _this4.modelDB.findById(id, callback);
+                });
+
+                if (after) listCallbaks.push.apply(listCallbaks, _toConsumableArray(after));
+
+                async.waterfall(listCallbaks, function (err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            return promise;
+        }
+    }, {
+        key: 'delete',
+        value: function _delete(id) {
+            var _this5 = this;
+
+            var promise = new _es6Promise2.default(function (resolve, reject) {
                 if (_mongoose2.default.Types.ObjectId.isValid(id)) {
-                    _this4.modelDB.deleteOne({ _id: id }, function (err, result) {
+                    _this5.modelDB.deleteOne({ _id: id }, function (err, result) {
                         if (err) {
                             reject(err);
                         } else {

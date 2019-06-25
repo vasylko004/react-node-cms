@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 type Props = {
     username?: string,
-    avatar?: string
+    avatar?: string,
+    logout?: ()=>void
 }
 
 type State = {
@@ -32,7 +33,7 @@ class UserSign extends Component<Props, State>{
         }
     }
 
-    toggleDropDown(){
+    toggleDropDown():void{
         let { dropDown } = this.state;
         let { username } = this.props;
         // console.log(" toggleDropDown - ",username);
@@ -43,12 +44,17 @@ class UserSign extends Component<Props, State>{
         }
     }
 
+    logout():void{
+        if(this.props.logout) this.props.logout();
+    }
+
     render(){
         let { username, avatar } = this.props;
         let Avatar:string = avatar || "/images/user.svg";
         let { dropDown } = this.state;
         let Styles:{display?: string, opacity?: string} = {};
         let toggleDropDown = this.toggleDropDown.bind(this);
+        let logout = this.logout.bind(this);
         if(dropDown){
             Styles = { display: "block", opacity: "1" };
         }
@@ -59,7 +65,7 @@ class UserSign extends Component<Props, State>{
             <ul className="dropdown-content" style={Styles}>
                 <li>  <Link to="/admin/profile"> <i className="large material-icons">account_circle</i> Profile</Link> </li>
                 <li className="divider"></li>
-                <li> <span> Log out </span> </li>
+                <li onClick={logout}> <span> Log out </span> </li>
             </ul>
         </div>
     }

@@ -12,4 +12,10 @@ function getCookie(name){
   return matches ? decodeURIComponent(matches[1]) : null;
 }
 
-export { setCookie, getCookie }
+function deleteCookie(name) {
+  setCookie(name, "", {
+    expires: -1
+  })
+}
+
+export { setCookie, getCookie, deleteCookie }

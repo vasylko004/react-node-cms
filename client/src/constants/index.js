@@ -5,6 +5,7 @@ export const REQUEST_SIGN_UP: string = "REQUEST_SIGN_UP";
 export const REQUEST_SIGN_IN: string = "REQUEST_SIGN_IN";
 export const REQUEST_UPDATE_USER: string = "REQUEST_UPDATE_USER";
 export const UPDATE_PROFILE_DATA: string = "UPDATE_PROFILE_DATA";
+export const UPDATE_CURRENT_USER: string = "UPDATE_CURRENT_USER";
 
 export type USER = {
     _id: string,
@@ -72,7 +73,7 @@ export const SERVER = {
             signup: "/api/users/signup",
         },
         PUT: {
-            user: '/api/users'
+            user: '/api/users/[:id]'
         }
     }
 }

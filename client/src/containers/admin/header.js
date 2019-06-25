@@ -1,12 +1,14 @@
 // @flow
 import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
-import { type USER} from '../../constants';
+import { type USER, UPDATE_AUTH_USER, SERVER} from '../../constants';
 import UserSign from '../../components/user-sign-module';
 import MainSidebar from './main-sidebar';
+import { deleteCookie } from '../../utils/cookies';
 
 type Props = {
-    user: USER | null
+    user: USER | null,
+    resetAuthUser: ()=>void
 }
 
 type State = {
@@ -18,7 +20,7 @@ class Header extends Component<Props, State>{
         sidebarShow: false
     }
 
-    sidebarToggle(event:Event):void{
+    sidebarToggle(event: Event): void{
         event.preventDefault();
         let { sidebarShow } = this.state;
         this.setState({
@@ -32,15 +34,26 @@ class Header extends Component<Props, State>{
         })
     }
 
+    logout(){
+        this.props.resetAuthUser();
+        deleteCookie("userdata");
+    }
+
     render(){
         let { user } = this.props;
         let name = "";
+        let avatar;
         if(user && user.firstName){
             name = user.firstName;
+        }
+        if(user && user.avatar){
+            avatar = SERVER.apihost + user.avatar;
         }
         let { sidebarShow } = this.state;
         let sidebarToggle = this.sidebarToggle.bind(this);
         let handleHideSidebar = this.handleHideSidebar.bind(this);
+        let logout = this.logout.bind(this);
+        
         return (<div>
             <nav>
                 <div className="nav-wrapper purple darken-1">
@@ -48,7 +61,7 @@ class Header extends Component<Props, State>{
                    {user?<a href="#!" className="sidebar-modules" onClick={sidebarToggle} ><i className="material-icons">view_module</i></a>:<span></span>}
                    </div>
                    <div className="right">
-                        <UserSign username={name}></UserSign>
+                        <UserSign username={name} logout={logout} avatar={avatar}></UserSign>
                    </div>
                 </div>
             </nav>
@@ -60,5 +73,7 @@ class Header extends Component<Props, State>{
 export default connect(state=>({
     user: state.users.current
 }),dispatch=>({
-
+    resetAuthUser: ()=>{
+        dispatch({type: UPDATE_AUTH_USER, data: false});
+    }
 }))(Header);

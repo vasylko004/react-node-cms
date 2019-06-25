@@ -27,9 +27,9 @@ export function signin(data: { email: string,  password: string}){
     return promise;
 }
 
-export function updateUser(data: FormData){
+export function updateUser(id:string, data: FormData, token: string){
     let promise: Promise<any> = new Promise((resolve, reject)=>{
-        axios.put(SERVER.apihost + SERVER.URI.PUT.user, data).then((response)=>{
+        axios.put(SERVER.apihost + SERVER.URI.PUT.user.replace("[:id]", id), data, {headers:{"Authorization": "Bearer " + token}}).then((response)=>{
             let result:USER = response.data.data;
             resolve(result);
         }).catch((error)=>{

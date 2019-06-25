@@ -17,9 +17,11 @@ router.get("/", (req, res) => {
 export function mountRoutes(app){
     const Users = new UserController();
     const pathDocs = resolve(__dirname, "../doc")
+    const pathPublic = resolve(__dirname, "../public")
     console.log(pathDocs);
     app.use('/', router);
     app.use('/api/users', Users.router());
     app.use("/api/docs", express.static(join(pathDocs)));
+    app.use("/static", express.static(join(pathPublic)));
 
 }

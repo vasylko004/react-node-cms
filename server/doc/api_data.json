@@ -5,6 +5,8 @@
     "title": "",
     "name": "CreateUser",
     "group": "User",
+    "version": "0.0.1",
+    "description": "<p>sign up new user</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -133,7 +135,6 @@
         ]
       }
     },
-    "version": "0.0.0",
     "filename": "src/controllers/users.js",
     "groupTitle": "User"
   },
@@ -143,6 +144,8 @@
     "title": "",
     "name": "Login",
     "group": "User",
+    "version": "0.0.1",
+    "description": "<p>sign in users</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -286,7 +289,208 @@
         ]
       }
     },
-    "version": "0.0.0",
+    "filename": "src/controllers/users.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "put",
+    "url": "/api/users/:id",
+    "title": "",
+    "name": "UpdateUser",
+    "group": "User",
+    "version": "0.0.1",
+    "description": "<p>update user data</p>",
+    "header": {
+      "fields": {
+        "MyHeaderGroup": [
+          {
+            "group": "MyHeaderGroup",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>Authorization value</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "FormData": [
+          {
+            "group": "FormData",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>User email</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "String",
+            "optional": true,
+            "field": "password",
+            "description": "<p>password need have min 6 and max 30 symbols</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "String",
+            "optional": false,
+            "field": "firstName",
+            "description": "<p>Firstname of the User.</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "String",
+            "optional": false,
+            "field": "lastName",
+            "description": "<p>Lastname of the User.</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "String",
+            "optional": true,
+            "field": "verified",
+            "description": "<p>is user verified, has only <code>on</code> and <code>off</code> values.</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "File",
+            "optional": true,
+            "field": "avatar",
+            "description": "<p>(optional) avatar for User</p>"
+          },
+          {
+            "group": "FormData",
+            "type": "Number",
+            "optional": true,
+            "field": "role",
+            "description": "<p>(optional) User's role: 0 - Super Adaministrator, 1 - Administrator, 2 - Editor, 3 - Simple</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "status",
+            "description": "<p>HTTP Status Code</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response data</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data.user",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user._id",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.firstName",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.lastName",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.email",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.avatar",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.created",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.user.updated",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.token",
+            "description": "<p>Access Token</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "warnings",
+            "description": ""
+          },
+          {
+            "group": "Success 200",
+            "type": "String[]",
+            "optional": false,
+            "field": "notice",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "IncorectParams",
+            "description": "<p>Incorect user data</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "FieledAuthetication",
+            "description": "<p>Fieled Creating</p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "ServerError",
+            "description": "<p>Unexpected server error</p>"
+          }
+        ]
+      }
+    },
     "filename": "src/controllers/users.js",
     "groupTitle": "User"
   }

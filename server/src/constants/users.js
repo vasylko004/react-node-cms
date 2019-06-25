@@ -2,10 +2,11 @@
 export type UserRequestObject = {
     email: string,
     password: string,
-    avatar: ?string,
+    avatar?: string,
     firstName: string,
     lastName: string,
-    role: ?number
+    role?: number,
+    verified?: boolean 
 }
 
 export let UserRequest: UserRequestObject = {

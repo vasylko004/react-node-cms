@@ -26,6 +26,10 @@ var jwt = _interopRequireWildcard(_jsonwebtoken);
 
 var _users3 = require('../constants/users');
 
+var _files = require('../helpers/files');
+
+var _constants = require('../constants');
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -59,7 +63,9 @@ var UserController = function () {
         /**
          * @api {post}  /api/users/signup
          * @apiName CreateUser
-         * @apiGroup User
+         * @apiGroup User 
+         * @apiVersion 0.0.1
+         * @apiDescription sign up new user
          *
          * @apiParam {String} email User email
          * @apiParam {String} firstName Firstname of the User.
@@ -99,6 +105,8 @@ var UserController = function () {
          * @api {post}  /api/users/signin
          * @apiName Login
          * @apiGroup User
+         * @apiVersion 0.0.1
+         * @apiDescription sign in users
          *
          * @apiParam {String} email User email
          * @apiParam {String} password password need have min 6 and max 30 symbols
@@ -147,13 +155,76 @@ var UserController = function () {
                 });
             })(req, res, next);
         }
+
+        /**
+         * @api {put}  /api/users/:id
+         * @apiName UpdateUser
+         * @apiGroup User
+         * @apiVersion 0.0.1
+         * @apiDescription update user data
+         * 
+         * @apiHeader (MyHeaderGroup) {String} authorization Authorization value
+         * 
+         * @apiParam (FormData) {String} email User email
+         * @apiParam (FormData) {String} [password] password need have min 6 and max 30 symbols
+         * @apiParam (FormData) {String} firstName Firstname of the User.
+         * @apiParam (FormData) {String} lastName Lastname of the User.
+         * @apiParam (FormData) {String} [verified] is user verified, has only `on` and `off` values.
+         * @apiParam (FormData) {File} [avatar] (optional) avatar for User
+         * @apiParam (FormData) {Number} [role] (optional) User's role: 0 - Super Adaministrator, 1 - Administrator, 2 - Editor, 3 - Simple
+         * 
+         * @apiSuccess {Number} status HTTP Status Code
+         * @apiSuccess {Object} data Response data
+         * @apiSuccess {Object} data.user 
+         * @apiSuccess {String} data.user._id
+         * @apiSuccess {String} data.user.firstName
+         * @apiSuccess {String} data.user.lastName
+         * @apiSuccess {String} data.user.email
+         * @apiSuccess {String} data.user.avatar
+         * @apiSuccess {String} data.user.created
+         * @apiSuccess {String} data.user.updated
+         * @apiSuccess {String} data.token Access Token
+         * @apiSuccess {String[]} warnings
+         * @apiSuccess {String[]} notice
+         * 
+         * @apiError (Error 4xx) IncorectParams Incorect user data
+         * @apiError (Error 4xx) FieledAuthetication Fieled Creating 
+         * @apiError (Error 5xx) ServerError Unexpected server error
+         * 
+         */
+
     }, {
         key: 'update',
         value: function update(req, res, next) {
+            var _this = this;
+
             var Res = new _response.Response(res);
-            console.log(req.body, req.files);
-            Res.addError(_response.BAD_REQUEST, "BadRequest");
-            Res.send();
+            var files = new _files.FileHelper(_constants.PUBLIC_DIRECTORY);
+            var Req = new _request.Request(req);
+            var data = Req.fetch(_users3.UserRequest);
+            files.upload(req, "avatar", "/users/" + req.params.id + "/").then(function (fileData) {
+                data.avatar = fileData.filePath;
+                _this.model.update(req.params.id, data).then(function (result) {
+                    Res.setData(result);
+                    Res.send();
+                }).catch(function (error) {
+                    Res.errorParse(error);
+                    Res.send();
+                });
+            }).catch(function (err) {
+                console.log(err.message);
+                Res.addNotice("Avatar is not Uploaded");
+                _this.model.update(req.params.id, data).then(function (result) {
+                    Res.setData(result);
+                    Res.send();
+                }).catch(function (error) {
+                    Res.errorParse(error);
+                    Res.send();
+                });
+            });
+            //console.log(req.body, req.files);
+            //Res.addError(BAD_REQUEST, "BadRequest");
+            //Res.send();
         }
     }, {
         key: 'router',
@@ -162,7 +233,7 @@ var UserController = function () {
 
             router.post("/signup", this.signup.bind(this));
             router.post("/signin", this.signin.bind(this));
-            router.put("/", this.update.bind(this));
+            router.put("/:id", this.update.bind(this));
 
             return router;
         }

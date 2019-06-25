@@ -144,6 +144,23 @@ var UserModel = function (_DefaultModel) {
             return promise;
         }
     }, {
+        key: 'one',
+        value: function one(id) {
+            return _get(UserModel.prototype.__proto__ || Object.getPrototypeOf(UserModel.prototype), 'one', this).call(this, id, [function (user) {
+                if (user.password) delete user.password;
+                return user;
+            }]);
+        }
+    }, {
+        key: 'update',
+        value: function update(id, data) {
+            return _get(UserModel.prototype.__proto__ || Object.getPrototypeOf(UserModel.prototype), 'update', this).call(this, id, data, [], [function (doc, callback) {
+                if (doc.password) doc.password = undefined;
+                console.log(doc, doc.password);
+                callback(null, doc);
+            }]);
+        }
+    }, {
         key: 'create',
         value: function create(data) {
             var _this3 = this;

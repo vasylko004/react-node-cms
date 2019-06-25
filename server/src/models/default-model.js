@@ -28,7 +28,7 @@ class DefaultModel{
         }
     }
 
-    clearDatabase(){ // this method created for testing api and work only in Test Mode;
+    clearDatabase(): Promise<any>{ // this method created for testing api and work only in Test Mode;
         var promise = new Promise((resolve, reject)=>{
             if(process.env.NODE_ENV === 'test'){
                 this.modelDB.deleteMany({}, function(err: any, res: any){
@@ -46,13 +46,20 @@ class DefaultModel{
         return promise;
     }
 
-    one(id: ObjectId){
+    one(id: ObjectId, injection: Array<(doc:{})=>{}>): Promise<any>{
         let promise = new Promise((resolve, reject)=>{
             if(mongoose.Types.ObjectId.isValid(id)){
                 this.modelDB.findOne({ _id: id }, function(err:any, doc:any){
                     if(err){
                         reject(err)
-                    }else resolve(doc);
+                    }else{ 
+                        async.eachSeries(injection, (item, callback)=>{
+                            doc = item(doc)
+                            callback();
+                        },function(err){
+                            resolve(doc)
+                        })                       
+                    }
                 })
             }else{
                 reject(new ValidationError("Invalid ID"));
@@ -62,18 +69,18 @@ class DefaultModel{
         return promise;
     }
 
-    create(data: any, before: Array<any> = [], after: Array<any> = []){  // before - list functions which will used after validation and before creation
+    create(data: any, before: Array<(data: any, callback: any)=>void> = [], after: Array<(data: any, callback: any)=>void> = []): Promise<any>{  // before - list functions which will used after validation and before creation
         // before function need to have to params data and callback for ex: (data, callback)=>{ /* code which changes data */ callback(null, data) }
         // after - list functions wich will used after create function and need to have structure (doc, callback)=>{ /* code which changes doc */ collback(null, doc) }
-        let listCallbacks: Array<any> = [
-            (callback: any)=>{ // validation data ( validator need to be initializied in child models )
+        let listCallbacks: Array<(...callback:any)=>void> = [
+            (callback)=>{ // validation data ( validator need to be initializied in child models )
                 Joi.validate(data, this.validator, callback);
             }
         ]
         for (let i = 0; i < before.length; i++) {
             listCallbacks.push(before[i]);
         }
-        listCallbacks.push((data, callback: any)=>{
+        listCallbacks.push((data, callback)=>{
             this.modelDB.create(data, callback);
         });
         for (let i = 0; i < after.length; i++) {
@@ -97,7 +104,45 @@ class DefaultModel{
         return promise;
     }
 
-    delete(id: ObjectId){
+    update(id: ObjectId, data: any, before?: Array<(...callback:any)=>void>, after?:Array<(...callback:any)=>void> ): Promise<any>{
+        let promise = new Promise((resolve, reject)=>{
+            let listCallbaks:Array<(...callback:any)=>void> = [
+                (callback)=>{
+                    if(mongoose.Types.ObjectId.isValid(id)){
+                        Joi.validate(data, this.validator, callback);
+                    }else{
+                        callback(new Error("Incorrect id"))
+                    }
+                }
+            ];
+            
+            if(before) listCallbaks.push(...before);
+            
+
+            listCallbaks.push((data, callback)=>{
+                //console.log(data);
+                this.modelDB.updateOne({_id: id}, data, callback)
+            })
+
+            listCallbaks.push((doc, callback)=>{
+                this.modelDB.findById(id, callback);
+            })
+
+            if(after) listCallbaks.push(...after);
+
+            async.waterfall(listCallbaks, function(err, result){
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result)
+                }
+            })
+        })
+
+        return promise;
+    }
+
+    delete(id: ObjectId): Promise<any>{
         let promise = new Promise((resolve, reject)=>{
             if(mongoose.Types.ObjectId.isValid(id)){
                 this.modelDB.deleteOne({_id: id}, function(err:any, result:any){

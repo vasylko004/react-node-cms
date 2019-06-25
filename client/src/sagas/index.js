@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { REQUEST_SIGN_UP, UPDATE_FORM_STATUS, REQUEST_SIGN_IN, UPDATE_AUTH_USER, UPDATE_PROFILE_DATA, REQUEST_UPDATE_USER } from '../constants';
+import { REQUEST_SIGN_UP, UPDATE_FORM_STATUS, REQUEST_SIGN_IN, UPDATE_AUTH_USER, UPDATE_PROFILE_DATA, REQUEST_UPDATE_USER, UPDATE_CURRENT_USER } from '../constants';
 import { signup, signin, updateUser } from '../actions/users';
 
 
@@ -27,8 +27,9 @@ function* requestSignIn(action){
 function* requestUpdateProfile(action){
     try{
         yield put({type: UPDATE_FORM_STATUS, data: {formName: "editProfile", status: 1}});
-        const result = yield call(updateUser, action.data);
+        const result = yield call(updateUser, action.id, action.data, action.token);
         yield put({ type: UPDATE_PROFILE_DATA, data: result });
+        yield put({ type: UPDATE_CURRENT_USER, data: result });
         yield put({ type: UPDATE_FORM_STATUS, data: {formName: "editProfile", status: 2} })
     }catch(error){
         yield put({type: UPDATE_FORM_STATUS, data: {formName: "editProfile", status: 3}});
