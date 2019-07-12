@@ -1,5 +1,5 @@
 //@flow
-import React, { Component, Fragment} from 'react';
+import React, { PureComponent, Fragment} from 'react';
 import Joi from '@hapi/joi';
 
 type Props = {
@@ -22,7 +22,7 @@ type State = {
     isInvalid: boolean
 }
 
-class TextField extends Component<Props, State>{
+class TextField extends PureComponent<Props, State>{
     inputRef: ?HTMLInputElement;
 
     constructor(props: Props){

@@ -147,7 +147,7 @@ var UserModel = function (_DefaultModel) {
         key: 'one',
         value: function one(id) {
             return _get(UserModel.prototype.__proto__ || Object.getPrototypeOf(UserModel.prototype), 'one', this).call(this, id, [function (user) {
-                if (user.password) delete user.password;
+                if (user.password) user.password = undefined;
                 return user;
             }]);
         }

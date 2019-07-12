@@ -86,5 +86,9 @@ export const MenuItems: Array<MenuItem> = [
     {
         name: "Profile",
         url: "/admin/profile"
+    },
+    {
+        name: "Pages",
+        url: "/admin/pages"
     }
 ]

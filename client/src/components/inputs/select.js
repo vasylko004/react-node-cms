@@ -23,9 +23,14 @@ type State = {
 class SelectInput extends Component<Props, State>{
     constructor(props:Props){
         super(props)
-        let name = this.getNameByValue(props.value || "", props.data);
+        let value = "";
+        if(typeof props.value !== 'undefined'){
+            value = props.value.toString();
+        }
+        
+        let name = this.getNameByValue(value || "", props.data);
         this.state = {
-            value: props.value || "",
+            value: value || "",
             name: name,
             showList: false
         }
@@ -41,7 +46,10 @@ class SelectInput extends Component<Props, State>{
 
     renderListElememts(){
         const { data } = this.props;
-        const { value } = this.state;
+        let { value } = this.state;
+        if(!value && typeof this.props.value !== 'undefined'){
+            value = this.props.value.toString();
+        }
         let handleClick = (name, key)=>{
             return ()=>{
                 this.setState({
@@ -72,7 +80,7 @@ class SelectInput extends Component<Props, State>{
     }
 
     handleInputBlur(evt: Event):void{
-        //console.log(evt);
+        //
         setTimeout(this.toggleList.bind(this), 200);
     }
 
@@ -82,6 +90,12 @@ class SelectInput extends Component<Props, State>{
         let styles = {
             display: 'none'
         }
+        let optionName = this.state.name;
+        if(!value && typeof this.props.value !== 'undefined'){
+            value = this.props.value.toString();
+            optionName = this.getNameByValue(value , this.props.data);
+        }
+        //
         if(showList){
             styles = {
                 display: 'block',
@@ -96,7 +110,7 @@ class SelectInput extends Component<Props, State>{
 
         return <div className="input-field">
             <div className="select-wrapper"> 
-                <input type="text" className="select-dropdown dropdown-trigger" readOnly onClick={toggleList} value={this.state.name || placeholder || "Select"} disabled={disabled} onBlur={ handleInputBlur }/>               
+                <input type="text" className="select-dropdown dropdown-trigger" readOnly onClick={toggleList} value={optionName || placeholder || "Select"} disabled={disabled} onBlur={ handleInputBlur }/>               
                 <Svg classes="caret" height="24" width="24" data={{groups: [], paths:[ {d: "M7 10l5 5 5-5z", type: "path"}, 
                     {d: "M0 0h24v24H0z", fill: "none", type:"path"}]}} />
                 <ul className="dropdown-content select-dropdown" style={styles}>

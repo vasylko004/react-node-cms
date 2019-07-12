@@ -38,7 +38,7 @@ export function validateData(DATA:{}, validate: {}): {data:{}, hasAnyError:boole
     for(let prop in DATA){
         if(validate[prop]){
             const result = Joi.validate(DATA[prop], validate[prop].validation);
-            //console.log(DATA[prop], result);
+            // 
             if(result.error){
                 validate[prop].error = true;
                 hasAnyError = true;
@@ -60,7 +60,7 @@ class Form extends Component<Props, State>{
         this.state = {
             data: []
         }
-        // console.log(props)
+        //
         if(props.children){
             for (let i = 0; i < props.children.length; i++) {
                 let element:Element<any> = props.children[i];
@@ -77,7 +77,6 @@ class Form extends Component<Props, State>{
             }
         }
         this.formRef = null;
-        console.log(this.state.data)
     }
 
     handleSubmit(evt: Event):void{
@@ -107,14 +106,10 @@ class Form extends Component<Props, State>{
 
     render(){
         let { children, status } = this.props;
-        //let { data } = this.state;
+        //
         const handleSubmit = this.handleSubmit.bind(this);
-        /*for (let i = 0; i < data.length; i++) {
-            if(!data[i].isValid){
-                data[i].el.props.isInvalid = !data[i].isValid;
-            }
-            //console.log(data[i].el);
-        }*/
+        /*
+        */
         return <form ref={(input)=>{ this.formRef = input }} onSubmit={handleSubmit}>
             {status===1?(<div className="form-panding-response">
                 <div className="preloader-wrapper big active">

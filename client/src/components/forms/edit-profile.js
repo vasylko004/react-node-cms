@@ -106,6 +106,7 @@ class EditProfileForm extends Component<Props,State>{
         const { status, userData } = this.props;
         let { data } = this.state;
         let  handleChooseFile = this.handleChooseFile.bind(this);
+        //if(userData) console.log(userData.role);
         return <div>
             <Form onSubmit={handleSubmit} status={ status||0 } >
                 <TextField name="email" type="email" label="Email" value={userData?userData.email:""} validation={data.email.validation} isInvalid={data.email.error}  />
