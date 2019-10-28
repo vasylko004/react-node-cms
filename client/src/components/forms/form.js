@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, type Element } from 'react';
+import { Validations, type ValidatorPattern } from '../../utils/validations';
 import { type STATUSES } from '../../constants';
-import Joi from '@hapi/joi';
 
 type Props = {
     validationType?:"formsubmit"|"inputchange"|"inputblur",
@@ -14,7 +14,7 @@ type Props = {
 type DataForm = {
     name: string,
     value: string | number | boolean | File | null,
-    validation?: Joi.String | Joi.Email | Joi.Number | Joi.Any,
+    validation?: ValidatorPattern,
     isValid: boolean,
     el: Element<any>
 }
@@ -24,7 +24,8 @@ type State = {
 }
 
 export type DataType = {
-    validation: Joi.Any | Joi.String | Joi.Email | Joi.Number,
+    validation: ValidatorPattern,
+    errorMessage?: string,
     error: boolean
 }
 
@@ -35,12 +36,14 @@ export type VerifiedFormData = {
 
 export function validateData(DATA:{}, validate: {}): {data:{}, hasAnyError:boolean}{
     let hasAnyError:boolean = false;
+    let validator = new Validations({});
     for(let prop in DATA){
         if(validate[prop]){
-            const result = Joi.validate(DATA[prop], validate[prop].validation);
+            const res = validator.validate(DATA[prop], validate[prop].validation);
             // 
-            if(result.error){
+            if(!res.result){
                 validate[prop].error = true;
+                if(res.errorMessage) validate[prop].errorMessage = res.errorMessage.replace("[field]", prop);
                 hasAnyError = true;
             }else{
                 validate[prop].error = false;
@@ -64,7 +67,7 @@ class Form extends Component<Props, State>{
         if(props.children){
             for (let i = 0; i < props.children.length; i++) {
                 let element:Element<any> = props.children[i];
-                let eProps:{ name?:string, className?: string, validation?: Joi.String | Joi.Email | Joi.Number | Joi.Any } = element.props
+                let eProps:{ name?:string, className?: string, validation?: ValidatorPattern } = element.props
                 if(eProps.name && eProps.validation){
                     this.state.data.push({
                         name: eProps.name,

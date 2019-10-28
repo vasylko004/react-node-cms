@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import Joi from '@hapi/joi';
+import { Validations } from '../../utils/validations';
 import Form, {type DataType, validateData} from './form';
 import { type STATUSES, type RequestSignUP } from '../../constants';
 import TextField from '../inputs/text-filed';
@@ -19,37 +19,38 @@ type State = {
 
 type Props = {
     status?: STATUSES,
-    onSubmit?: (data:RequestSignUP)=>void
+    onSubmit?: (data: RequestSignUP)=>void
 }
 
 class SignUpForm extends Component<Props, State>{
     constructor(props: Props){
         super(props);
+        let validator = new Validations({});
 
         this.state = {
             data:{
                 username:{
-                   validation: Joi.string().min(3).max(30).required(),
+                   validation: validator.set("string|min:3|max:30"),
                    error: false
                 },
                 email: {
-                    validation: Joi.string().email({ minDomainSegments: 2 }),
+                    validation: validator.set("email"),
                     error: false
                 },
                 firstName: {
-                    validation: Joi.string().min(3).max(30),
+                    validation: validator.set("string|min:3|max:30"),
                     error: false                    
                 },
                 lastName: {
-                    validation: Joi.string().min(3).max(30),
+                    validation: validator.set("string|min:3|max:30"),
                     error: false                    
                 },
                 password: {
-                    validation: Joi.string().required(),
+                    validation: validator.set("string"),
                     error: false                    
                 },
                 password_repeat: {
-                    validation: Joi.string().required(),
+                    validation: validator.set("string"),
                     error: false                    
                 }
             }

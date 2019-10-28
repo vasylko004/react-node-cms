@@ -138,7 +138,7 @@ exports[`Sign In Form renders testing 1`] = `
         htmlFor="check_remember_me"
       >
         <input
-          defaultChecked={false}
+          checked={false}
           id="check_remember_me"
           name="remember_me"
           type="checkbox"

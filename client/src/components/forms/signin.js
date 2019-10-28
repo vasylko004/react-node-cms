@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Form, {type DataType, validateData} from './form';
 import TextField from '../inputs/text-filed';
 import { type STATUSES } from '../../constants';
-import Joi from '@hapi/joi';
+import { Validations } from '../../utils/validations';
 import Button from '../buttons';
 import CheckBox from '../inputs/checkbox';
 
@@ -16,20 +16,21 @@ type State = {
 
 type Props = {
     status?: STATUSES,
-    onSubmit?: (data:{email: string, password: string})=>void
+    onSubmit?: (data: { email: string, password: string })=>void
 }
 
 class SignInForm extends Component<Props,State>{
     constructor(props:Props){
         super(props);
+        let validator = new Validations({});
 
         this.state = { data:{
                 email:{
-                    validation: Joi.string().email({ minDomainSegments: 2 }).required(),
+                    validation: validator.set("email"),
                     error: false
                 },
                 password: {
-                    validation: Joi.string().required(),
+                    validation: validator.set("string"),
                     error: false
                 }
             }
