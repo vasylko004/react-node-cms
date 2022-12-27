@@ -38,7 +38,7 @@
     "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
     "es6-promise": "^4.2.6",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-form-data": "^2.0.8",
     "joi": "^14.3.1",
     "mongoose": "^5.5.2",
